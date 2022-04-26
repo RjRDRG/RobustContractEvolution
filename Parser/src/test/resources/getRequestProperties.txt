@@ -1,0 +1,22 @@
+/pets GET
+	key: query|limit                              | isArray: false | primitive: integer    | format: int32      | required: false | default: null
+	key: query|tags                               | isArray: true  | primitive: null       | format: null       | required: false | default: null
+
+/pets POST
+	key: json|name                                | isArray: false | primitive: string     | format: null       | required: true  | default: null
+	key: json|specie.class.family                 | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.class.genus                  | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.class.kingdom                | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.class.order                  | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.class.phylum                 | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.class.species                | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|specie.name                         | isArray: false | primitive: string     | format: null       | required: true  | default: null
+	key: json|specie.tag                          | isArray: false | primitive: string     | format: null       | required: false | default: null
+	key: json|tag                                 | isArray: false | primitive: string     | format: null       | required: false | default: null
+
+/pets/{id} DELETE
+	key: path|id                                  | isArray: false | primitive: integer    | format: int64      | required: true  | default: null
+
+/pets/{id} GET
+	key: path|id                                  | isArray: false | primitive: integer    | format: int64      | required: true  | default: null
+

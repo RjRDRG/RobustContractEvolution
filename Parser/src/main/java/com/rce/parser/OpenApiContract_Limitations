@@ -1,0 +1,55 @@
+Used
+    <groupId>io.swagger.parser.v3</groupId>
+    <artifactId>swagger-parser</artifactId>
+    <version>2.0.31</version>
+    <artifactId>swagger-parser-core</artifactId>
+    <version>2.0.31</version>
+
+
+Unsupported
+ Only supports one media type for requestBody's and respons
+ Dictionary's are not supported in schemas,  doesn't support collections in schemas
+ Only supports body content of the type application/json
+ Doesn't support anyOf, oneOf in schemas
+ Refined types are not supported
+ Parameter type described as content is not supported
+ Doesn't support type or format migrations for now (to support format migrations answer set programming is needed)
+ Doesn't use the body to fill parameters values
+ Doesn't support response status migration yet
+ Doesn't support enums yet
+ Doesn't support headers in respons
+
+Features
+ Supports renaming fields and parameters
+ Supports parameter location refactors
+ Supports default values
+ Supports addition and removal of required fields and parameters
+
+
+
+
+DONE [28/03]
+ Install and Setup a local kubernetes cluster "Minikube" (Required for testing the adapter proxy)
+ Implement a basic microservice and client (Required for testing the adapter proxy)
+
+IN PROGRESS [28/03]
+ 90% - Implement the procedure that verifies the compatibility of OpenAPI contracts
+ 75% - Implement the procedure that outputs a compatibility file (contains the resolution rules used for solving mismatching endpoints and records)
+
+TODO [4/4/22]
+ Unit tests for the contract verification procedures {1-2 days}
+ Explore approaches for implementing the adapter proxy {2 days}
+   - using nginx in kubernetes sidecar
+   - using mitmproxy in the docker container
+   - ?
+ Implement the procedure that intercepts incoming and outgoing HTTP messages {4-? days}
+
+TODO [11/4/22]
+  Implement the procedure that initializes the adapter proxy using the compatibility file
+  Implement the procedure that modifies HTTP messages
+  ?
+
+BACKLOG
+ Service Registry
+ Benchmark platform
+ Add license and README file to github repo

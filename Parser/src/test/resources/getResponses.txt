@@ -1,0 +1,16 @@
+/pets GET
+	200
+	default
+
+/pets POST
+	200
+	default
+
+/pets/{id} DELETE
+	204
+	default
+
+/pets/{id} GET
+	200
+	default
+

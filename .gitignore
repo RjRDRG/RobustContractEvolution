@@ -1,0 +1,3 @@
+# Project exclude paths
+/Editor/target/
+/Parser/target/

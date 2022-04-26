@@ -1,0 +1,4 @@
+/pets GET
+/pets POST
+/pets/{id} DELETE
+/pets/{id} GET

@@ -1,0 +1,27 @@
+/pets GET
+	200
+		key: json|                                    | isArray: true  | primitive: null       | format: null       | required: true  | default: null
+	default
+		key: json|code                                | isArray: false | primitive: integer    | format: int32      | required: true  | default: null
+		key: json|message                             | isArray: false | primitive: string     | format: null       | required: true  | default: null
+
+/pets POST
+	200
+		key: json|id                                  | isArray: false | primitive: integer    | format: int64      | required: true  | default: null
+	default
+		key: json|code                                | isArray: false | primitive: integer    | format: int32      | required: true  | default: null
+		key: json|message                             | isArray: false | primitive: string     | format: null       | required: true  | default: null
+
+/pets/{id} DELETE
+	204
+	default
+		key: json|code                                | isArray: false | primitive: integer    | format: int32      | required: true  | default: null
+		key: json|message                             | isArray: false | primitive: string     | format: null       | required: true  | default: null
+
+/pets/{id} GET
+	200
+		key: json|id                                  | isArray: false | primitive: integer    | format: int64      | required: true  | default: null
+	default
+		key: json|code                                | isArray: false | primitive: integer    | format: int32      | required: true  | default: null
+		key: json|message                             | isArray: false | primitive: string     | format: null       | required: true  | default: null
+
