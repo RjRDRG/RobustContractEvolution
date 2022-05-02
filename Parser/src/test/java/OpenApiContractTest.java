@@ -1,7 +1,7 @@
+import com.rce.common.structures.Endpoint;
+import com.rce.common.structures.Property;
 import com.rce.parser.IContract;
 import com.rce.parser.OpenApiContract;
-import com.rce.parser.structures.Endpoint;
-import com.rce.parser.structures.Property;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;

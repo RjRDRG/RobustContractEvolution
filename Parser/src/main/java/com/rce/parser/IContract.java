@@ -1,7 +1,7 @@
 package com.rce.parser;
 
-import com.rce.parser.structures.Endpoint;
-import com.rce.parser.structures.Property;
+import com.rce.common.structures.Endpoint;
+import com.rce.common.structures.Property;
 
 import java.util.List;
 import java.util.Set;

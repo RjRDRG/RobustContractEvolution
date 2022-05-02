@@ -1,6 +1,6 @@
-package com.rce.editor.io;
+package com.rce.common.io;
 
-import com.rce.editor.structures.Result;
+import com.rce.common.structures.Result;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;

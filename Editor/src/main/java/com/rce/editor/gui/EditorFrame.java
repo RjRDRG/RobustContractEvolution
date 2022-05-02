@@ -2,9 +2,9 @@ package com.rce.editor.gui;
 
 import com.rce.editor.Editor;
 import com.rce.editor.gui.utils.JGridBagPanel;
-import com.rce.editor.io.ResultIO;
+import com.rce.common.io.ResultIO;
 import com.rce.parser.IContract;
-import com.rce.parser.structures.Endpoint;
+import com.rce.common.structures.Endpoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +39,7 @@ public class EditorFrame extends JFrame {
             });
             resolutionPanel.submit.addActionListener(e1 -> {
                 try {
-                    ResultIO.writeToYaml(resolutionPanel.getResult(), Editor.BasePath + "result.yml");
+                    ResultIO.writeToYaml(resolutionPanel.getResult(), Editor.BasePath + "evolution.yml");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

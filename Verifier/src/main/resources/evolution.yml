@@ -1,18 +1,34 @@
-!!com.rce.editor.structures.Result
+!!com.rce.common.structures.Result
 methods:
-- endpoint: /pets GET
-  endpointPrior: /pets GET
+- endpoint: /pets POST
+  endpointPrior: /pets POST
   messages:
   - parameters:
-    - key: query|tags
-      resolution: link=query|tags
-    - key: query|limit
-      resolution: link=query|limit
+    - key: json|specie.class.family
+      resolution: link=json|specie.class.family
+    - key: json|specie.class.genus
+      resolution: link=json|specie.class.genus
+    - key: json|specie.class.kingdom
+      resolution: link=json|specie.class.kingdom
+    - key: json|specie.tag
+      resolution: link=json|specie.tag
+    - key: json|specie.class.species
+      resolution: link=json|specie.class.species
+    - key: json|name
+      resolution: link=json|name
+    - key: json|specie.class.phylum
+      resolution: link=json|specie.class.phylum
+    - key: json|tag
+      resolution: link=json|tag
+    - key: json|specie.class.order
+      resolution: link=json|specie.class.order
+    - key: json|specie.name
+      resolution: link=json|specie.name
     type: Request
     typePrior: Request
   - parameters:
-    - key: json|
-      resolution: link=json|
+    - key: json|id
+      resolution: link=json|id
     type: '200'
     typePrior: '200'
   - parameters:
@@ -22,35 +38,19 @@ methods:
       resolution: link=json|message
     type: default
     typePrior: default
-- endpoint: /pets POST
-  endpointPrior: /pets POST
+- endpoint: /pets GET
+  endpointPrior: /pets GET
   messages:
   - parameters:
-    - key: json|name
-      resolution: link=json|name
-    - key: json|specie.name
-      resolution: link=json|specie.name
-    - key: json|specie.class.family
-      resolution: link=json|specie.class.family
-    - key: json|specie.class.kingdom
-      resolution: link=json|specie.class.kingdom
-    - key: json|specie.tag
-      resolution: link=json|specie.tag
-    - key: json|specie.class.genus
-      resolution: link=json|specie.class.genus
-    - key: json|tag
-      resolution: link=json|tag
-    - key: json|specie.class.phylum
-      resolution: link=json|specie.class.phylum
-    - key: json|specie.class.order
-      resolution: link=json|specie.class.order
-    - key: json|specie.class.species
-      resolution: link=json|specie.class.species
+    - key: query|limit
+      resolution: link=query|limit
+    - key: query|tags
+      resolution: link=query|tags
     type: Request
     typePrior: Request
   - parameters:
-    - key: json|id
-      resolution: link=json|id
+    - key: json|
+      resolution: link=json|
     type: '200'
     typePrior: '200'
   - parameters:

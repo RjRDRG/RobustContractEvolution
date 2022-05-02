@@ -1,14 +1,13 @@
-package com.rce.editor.structures;
-
-import com.rce.parser.structures.PropertyKey;
+package com.rce.common.structures;
 
 import java.util.Objects;
 
 public class Resolution {
 
-    public static String LINK = "link=";
-    public static String VALUE = "value=";
-    public static String TYPE = "type=";
+    public enum Type {LINK, VALUE, FUNCTION}
+
+    public static String TypeSeparator = "=";
+    public static String LinkSeparator = "=";
 
     public final String resolution;
 
@@ -16,13 +15,13 @@ public class Resolution {
         this.resolution = resolution;
     }
 
-    public static Resolution linkResolution(PropertyKey key) {
-        String resolution = LINK + key.toString();
+    public static Resolution linkResolution(String key) {
+        String resolution = Type.LINK.name().toLowerCase() + TypeSeparator  + key;
         return new Resolution(resolution);
     }
 
     public static Resolution valueResolution(String value) {
-        String resolution = VALUE + value;
+        String resolution = Type.VALUE.name().toLowerCase() + TypeSeparator + value;
         return new Resolution(resolution);
     }
 

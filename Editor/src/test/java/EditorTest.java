@@ -1,13 +1,13 @@
 
-import com.rce.editor.io.ResultIO;
-import com.rce.editor.structures.Message;
-import com.rce.editor.structures.Method;
-import com.rce.editor.structures.Parameter;
-import com.rce.editor.structures.Result;
+import com.rce.common.io.ResultIO;
+import com.rce.common.structures.Message;
+import com.rce.common.structures.Method;
+import com.rce.common.structures.Parameter;
+import com.rce.common.structures.Result;
 import com.rce.parser.IContract;
 import com.rce.parser.OpenApiContract;
-import com.rce.parser.structures.Endpoint;
-import com.rce.parser.structures.Property;
+import com.rce.common.structures.Endpoint;
+import com.rce.common.structures.Property;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -25,7 +25,7 @@ class EditorTest {
 
     @BeforeEach
     void setUp() throws FileNotFoundException {
-        result = ResultIO.readFromYaml(basePath + "result.yml");
+        result = ResultIO.readFromYaml(basePath + "evolution.yml");
 
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);

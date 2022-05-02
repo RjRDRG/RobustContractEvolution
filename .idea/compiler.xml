@@ -9,6 +9,7 @@
         <module name="Verifier" />
         <module name="Editor" />
         <module name="Parser" />
+        <module name="Common" />
       </profile>
     </annotationProcessing>
   </component>

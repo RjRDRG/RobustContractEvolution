@@ -1,8 +1,8 @@
 package com.rce.parser;
 
-import com.rce.parser.structures.Endpoint;
-import com.rce.parser.structures.Property;
-import com.rce.parser.structures.PropertyKey;
+import com.rce.common.structures.Endpoint;
+import com.rce.common.structures.Property;
+import com.rce.common.structures.PropertyKey;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;

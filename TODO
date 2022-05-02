@@ -1,0 +1,5 @@
+verifier -value validator (primitive/format)
+
+parser -arrays
+
+editor -message visual confirmation -grey-out submit button

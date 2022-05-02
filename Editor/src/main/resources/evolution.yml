@@ -4,26 +4,26 @@ methods:
   endpointPrior: /pets POST
   messages:
   - parameters:
-    - key: json|specie.class.species
-      resolution: link=json|specie.class.species
-    - key: json|tag
-      resolution: link=json|tag
-    - key: json|specie.tag
-      resolution: link=json|specie.tag
-    - key: json|specie.class.genus
-      resolution: link=json|specie.class.genus
-    - key: json|specie.class.phylum
-      resolution: link=json|specie.class.phylum
     - key: json|specie.name
       resolution: link=json|specie.name
     - key: json|specie.class.kingdom
       resolution: link=json|specie.class.kingdom
     - key: json|specie.class.order
       resolution: link=json|specie.class.order
-    - key: json|specie.class.family
-      resolution: link=json|specie.class.family
+    - key: json|specie.class.species
+      resolution: link=json|specie.class.species
+    - key: json|specie.tag
+      resolution: link=json|specie.tag
     - key: json|name
       resolution: link=json|name
+    - key: json|tag
+      resolution: link=json|tag
+    - key: json|specie.class.phylum
+      resolution: link=json|specie.class.phylum
+    - key: json|specie.class.family
+      resolution: link=json|specie.class.family
+    - key: json|specie.class.genus
+      resolution: link=json|specie.class.genus
     type: Request
     typePrior: Request
   - parameters:
@@ -32,10 +32,10 @@ methods:
     type: '200'
     typePrior: '200'
   - parameters:
-    - key: json|code
-      resolution: link=json|code
     - key: json|message
       resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
     type: default
     typePrior: default
 - endpoint: /pets GET
@@ -54,10 +54,10 @@ methods:
     type: '200'
     typePrior: '200'
   - parameters:
-    - key: json|code
-      resolution: link=json|code
     - key: json|message
       resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
     type: default
     typePrior: default
 - endpoint: /pets/{id} DELETE
@@ -73,10 +73,10 @@ methods:
     type: '204'
     typePrior: '204'
   - parameters:
-    - key: json|code
-      resolution: link=json|code
     - key: json|message
       resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
     type: default
     typePrior: default
 - endpoint: /pets/{id} GET
@@ -93,9 +93,9 @@ methods:
     type: '200'
     typePrior: '200'
   - parameters:
-    - key: json|code
-      resolution: link=json|code
     - key: json|message
       resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
     type: default
     typePrior: default

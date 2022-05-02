@@ -3,10 +3,10 @@ package com.rce.editor.gui;
 import com.rce.editor.gui.utils.ButtonColumn;
 import com.rce.editor.gui.utils.JGridBagPanel;
 import com.rce.editor.gui.utils.JViewerPanel;
-import com.rce.editor.structures.*;
-import com.rce.parser.structures.Endpoint;
-import com.rce.parser.structures.Property;
-import com.rce.parser.structures.PropertyKey;
+import com.rce.common.structures.*;
+import com.rce.common.structures.Endpoint;
+import com.rce.common.structures.Property;
+import com.rce.common.structures.PropertyKey;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -260,7 +260,7 @@ class JMessagePanel extends JPanel {
                 resolution = Resolution.valueResolution(((JValuePanel)v0.getActive()).value.getText());
             }
             else {
-                resolution = Resolution.linkResolution(t1Selected.key);
+                resolution = Resolution.linkResolution(t1Selected.key.toString());
             }
 
             t2.addRow(new Object[]{t0Selected, resolution, "X"});
@@ -310,7 +310,7 @@ class JMessagePanel extends JPanel {
         t2.buildTable(new String[]{"Property", "Resolution", ""}, removeRow);
         properties.stream().filter(priorProperties::contains).forEach(p -> {
             p.setSolved(true);
-            Resolution resolution = Resolution.linkResolution(p.key);
+            Resolution resolution = Resolution.linkResolution(p.key.toString());
             t2.addRow(new Object[]{p, resolution, "X"});
         });
         t0.revalidate();

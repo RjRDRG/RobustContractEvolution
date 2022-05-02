@@ -1,4 +1,4 @@
-package com.rce.parser.structures;
+package com.rce.common.structures;
 
 import java.util.List;
 import java.util.Objects;

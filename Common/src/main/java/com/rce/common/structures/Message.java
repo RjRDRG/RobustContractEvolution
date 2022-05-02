@@ -1,4 +1,4 @@
-package com.rce.editor.structures;
+package com.rce.common.structures;
 
 import java.util.List;
 
