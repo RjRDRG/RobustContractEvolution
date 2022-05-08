@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Verifier" />
         <module name="Editor" />
+        <module name="common" />
         <module name="Parser" />
         <module name="Common" />
       </profile>
