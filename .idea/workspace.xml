@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="s">
+    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/azure/azureSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/DemoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/BadRequestException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ExceptionAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ForbiddenException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotImplementedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ServerErrorException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +48,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Verifier" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/demo/src/main/java/com/rce/demo" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.33601838" />
@@ -46,11 +56,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/demo/src/main/java/com/rce/demo" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Verifier\src\main\resources" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\test\resources" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\resources" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\java\com\rce\editor" />
-      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Parser\src\test\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution" />
@@ -59,13 +69,32 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Verifier">
+  <component name="RunManager" selected="Application.DemoApplication">
+    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rce.demo.DemoApplication" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rce.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Editor" />
       <item itemvalue="Application.PrepareOpenApiContractTest" />
       <item itemvalue="Application.Verifier" />
       <item itemvalue="JUnit.OpenApiContractTest" />
+      <item itemvalue="Application.DemoApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DemoApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651999028064</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="s">
+      <created>1652000873367</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1652000873367</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
