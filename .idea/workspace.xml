@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="s" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="28Kla30MsgeOHYXlLYqBdOUPTpN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Verifier" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Verifier\src\main\resources" />
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\test\resources" />
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\resources" />
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\java\com\rce\editor" />
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Parser\src\test\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.OpenApiContractTest.testGetRequestProperties">
+    <list>
+      <item itemvalue="Application.Editor" />
+      <item itemvalue="Application.PrepareOpenApiContractTest" />
+      <item itemvalue="Application.Verifier" />
+      <item itemvalue="JUnit.OpenApiContractTest" />
+      <item itemvalue="JUnit.OpenApiContractTest.testGetRequestProperties" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Editor" />
+        <item itemvalue="Application.Verifier" />
+        <item itemvalue="JUnit.OpenApiContractTest" />
+        <item itemvalue="JUnit.OpenApiContractTest.testGetRequestProperties" />
+        <item itemvalue="Application.PrepareOpenApiContractTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="" />
+      <created>1650973222294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650973222294</updated>
+    </task>
+    <task id="LOCAL-00001" summary="s">
+      <created>1651503647732</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1651503647732</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="s" />
+    <option name="LAST_COMMIT_MESSAGE" value="s" />
+  </component>
+</project>
