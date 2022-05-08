@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rce</groupId>
-    <artifactId>robust_contract_evolution</artifactId>
+    <artifactId>RobustContractEvolution</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>parser</module>
-        <module>verifier</module>
-        <module>editor</module>
+        <module>Parser</module>
+        <module>Verifier</module>
+        <module>Editor</module>
         <module>Common</module>
     </modules>
 
