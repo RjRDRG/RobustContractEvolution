@@ -3,10 +3,10 @@ from typing import List, Tuple
 
 from proxy.http.server import ReverseProxyBasePlugin
 
-REVERSE_PROXY_LOCATION: str = r'/user$'
+REVERSE_PROXY_LOCATION: str = r'/user'
 
 REVERSE_PROXY_PASS = [
-    b'http://demo/user'
+    b'http://demo:8081/user'
 ]
 
 class MyReverseProxyPlugin(ReverseProxyBasePlugin):
