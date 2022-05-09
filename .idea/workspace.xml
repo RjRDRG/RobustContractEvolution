@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/azure/azureSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/DemoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/BadRequestException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ExceptionAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ForbiddenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotImplementedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ServerErrorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/demo.dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/myProxy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/proxy.dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +27,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -48,19 +48,19 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/demo/src/main/java/com/rce/demo" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/demo" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.33601838" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/demo" />
+      <recent name="$PROJECT_DIR$/Parser" />
       <recent name="$PROJECT_DIR$/demo/src/main/java/com/rce/demo" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Verifier\src\main\resources" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\test\resources" />
-      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\resources" />
-      <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Editor\src\main\java\com\rce\editor" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution" />
@@ -69,7 +69,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DemoApplication">
+  <component name="RunManager" selected="Application.Editor">
     <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.rce.demo.DemoApplication" />
       <module name="demo" />
@@ -83,15 +83,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="demo: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="demo/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Editor" />
       <item itemvalue="Application.PrepareOpenApiContractTest" />
       <item itemvalue="Application.Verifier" />
-      <item itemvalue="JUnit.OpenApiContractTest" />
       <item itemvalue="Application.DemoApplication" />
+      <item itemvalue="Docker.demo: Compose Deployment" />
+      <item itemvalue="JUnit.OpenApiContractTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.demo: Compose Deployment" />
         <item itemvalue="Application.DemoApplication" />
       </list>
     </recent_temporary>
@@ -126,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652000873367</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="demo rest server">
+      <created>1652024104935</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1652024104935</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +159,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="s" />
-    <option name="LAST_COMMIT_MESSAGE" value="s" />
+    <MESSAGE value="demo rest server" />
+    <option name="LAST_COMMIT_MESSAGE" value="demo rest server" />
   </component>
 </project>

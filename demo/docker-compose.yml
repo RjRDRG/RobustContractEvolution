@@ -1,0 +1,13 @@
+services:
+  demo:
+    build:
+      context: .
+      dockerfile: demo.dockerfile
+    ports:
+      - "127.0.0.1:8081:80"
+  proxy:
+    build:
+      context: .
+      dockerfile: proxy.dockerfile
+    ports:
+      - "127.0.0.1:8082:8082"
