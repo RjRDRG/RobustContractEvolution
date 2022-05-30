@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="wip">
-      <change afterPath="$PROJECT_DIR$/Generator/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generator/src/test/java/com/rce/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/adapterProxy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo/interceptProxyPlugin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Endpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Endpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Resolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Resolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/myProxy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/proxy.dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/demo/proxy.dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +169,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652102955166</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="wip">
+      <created>1653884918663</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1653884918663</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

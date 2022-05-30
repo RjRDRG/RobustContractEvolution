@@ -39,7 +39,7 @@ public class Generator {
                     .append("\t".repeat(indentation))
                     .append(buildEndpointRequestCase(endpoint))
                     .append("\n").append("\t".repeat(indentation)).append("\t")
-                    .append("return self.").append(buildEndpointRequestMethodName(endpoint))
+                    .append(buildEndpointRequestMethodName(endpoint))
                     .append("\n");
         }
 
@@ -62,7 +62,9 @@ public class Generator {
             String e = elms.get(i);
             caseBuilder.append("[");
             if (e.startsWith("{")) {
-                caseBuilder.append(e, 1, e.length()-1);
+                caseBuilder
+                        .append("path_")
+                        .append(e, 1, e.length()-1);
             } else {
                 caseBuilder.append("\"").append(e).append("\"");
             }
@@ -77,14 +79,15 @@ public class Generator {
     private static String buildEndpointRequestMethodName(Endpoint endpoint) {
         StringBuilder nameBuilder = new StringBuilder();
 
-        nameBuilder.append("handle_");
+        nameBuilder
+                .append("return self.handle_");
 
         List<String> vars = new ArrayList<>();
 
         for (String e : endpoint.getPathElements()) {
             if (e.startsWith("{")) {
                 String var = e.substring(1, e.length()-1);
-                vars.add(var);
+                vars.add("path_" + var);
                 nameBuilder.append(var);
             } else {
                 nameBuilder.append(e);
@@ -143,7 +146,7 @@ public class Generator {
         for (String e : priorEndpoint.getPathElements()) {
             if (e.startsWith("{")) {
                 String var = e.substring(1, e.length()-1);
-                vars.add(var);
+                vars.add("path_" + var);
                 headerBuilder.append(var);
             } else {
                 headerBuilder.append(e);
@@ -173,6 +176,10 @@ public class Generator {
     private static String buildEndpointRequestHandlerImpl(Endpoint endpoint, Message requestMessage, int indentation) {
         StringBuilder bodyBuilder = new StringBuilder();
 
+        bodyBuilder
+                .append(buildQueryParametersDictionary(indentation))
+                .append("\n");
+
         for (Parameter parameter: requestMessage.getParameters()) {
             bodyBuilder
                     .append("\t".repeat(indentation))
@@ -182,6 +189,21 @@ public class Generator {
 
         return bodyBuilder.toString();
     }
+
+    private static String buildQueryParametersDictionary(int indentation) {
+        return  "\t".repeat(indentation) +
+                "query = self.buildQueryDictionary(request)" +
+                "\n";
+    }
+
+    private static String buildBodyParametersDictionary(int indentation) {
+        return  "\t".repeat(indentation) +
+                "jsonBody = self.buildJsonBodyDictionary(request)" +
+                "\n";
+    }
+
+    if request.body:
+    by = json.loads(request.body)
 
     private static String buildEndpointRequestParameter(Endpoint endpoint, Parameter parameter) {
         StringBuilder parameterBuilder = new StringBuilder();
@@ -242,36 +264,33 @@ public class Generator {
                     break;
                 }
                 case "json": {
-                    value = getValueFromJson(priorParameterId);
+                    value = getValueFromBodyJson(priorParameterId);
                     break;
                 }
             }
+        } else {
+            value = "\"" + value + "\"";
         }
 
-        parameterBuilder
-                .append("\"")
-                .append(value)
-                .append("\"");
+        parameterBuilder.append(value);
 
         return parameterBuilder.toString();
     }
 
     private static String getValueFromPath(String parameterId) {
-        StringBuilder valueBuilder = new StringBuilder();
-
-
+        return "path_" + parameterId;
     }
 
     private static String getValueFromQuery(String parameterId) {
-        StringBuilder valueBuilder = new StringBuilder();
+        return "query[\"" + parameterId + "\"]";
     }
 
     private static String getValueFromHeader(String parameterId) {
-        StringBuilder valueBuilder = new StringBuilder();
+        return "self.getHeader(\"" + parameterId + "\", request)";
     }
 
-    private static String getValueFromJson(String parameterId) {
-        StringBuilder valueBuilder = new StringBuilder();
+    private static String getValueFromBodyJson(String parameterId) {
+        return "self.getBodyJsonParameter(\"" + parameterId + "\", request)";
     }
 /*
 

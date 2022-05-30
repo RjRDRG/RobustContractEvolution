@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from typing import Optional
 
 from ..http.proxy import HttpProxyBasePlugin
-from ..http.parser import HttpParser
-
+from ..http.parser import HttpParser, httpParserTypes
 
 class ModifyPostDataPlugin(HttpProxyBasePlugin):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -15,8 +16,7 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
             self, request: HttpParser,
     ) -> Optional[HttpParser]:
         if request.path:
-            temp = request.path.decode().split("?")
-            endpoint = temp[0].split("//")
+            endpoint = request.path.decode().split("?")[0].split("//")
             endpoint = list(filter(None, endpoint))
             if request.method:
                 endpoint.append(request.method.decode().lower())
@@ -28,11 +28,46 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
 
 #ENDPOINT_REQUEST_HANDLERS
 
-    def handle_upstream_chunk(self, chunk: memoryview) -> Optional[memoryview]:
+    def handle_upstream_chunk(
+        self, chunk: memoryview
+    ) -> Optional[memoryview]:
         self.response.parse(chunk)
         if self.response.is_complete:
             if self.response.is_chunked_encoded:
                 self.response.body = b'\n'.join(self.DEFAULT_CHUNKS) + b'\n'
             self.client.queue(memoryview(self.response.build_response()))
         return None
+
+    def buildQueryDictionary(
+        self, request: HttpParser,
+    ) -> dict[str, str]:
+        if request.path:
+            aux = request.path.decode().split("?")[1].split("&")
+            aux = list(filter(None, aux))
+            query = dict()
+            for q in aux:
+                query[q.split("=")[0]] = q.split("=")[1]
+            return query
+        else:
+            raise Exception()
+
+    def buildBodyDictionary(
+        self, request: HttpParser,
+    ):
+        body = dict()
+        if request.body:
+            body = json.loads(request,body)
+        return body
+
+    def getHeader(
+        self, headerKey: str, request: HttpParser,
+    ) -> str:
+        if request.headers:
+            aux = request.headers.get(headerKey.encode())
+            if aux:
+                return aux[1].decode()
+            else:
+                raise Exception()
+        else:
+            raise Exception()
 
