@@ -2,7 +2,6 @@ package com.rce.generator;
 
 import com.rce.common.io.ResultIO;
 import com.rce.common.structures.*;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -22,7 +21,7 @@ public class Generator {
             template = template.replace("#ENDPOINT_REQUEST_CASES", buildEndpointRequestCases(result,4));
             template = template.replace("#ENDPOINT_REQUEST_HANDLERS", buildEndpointRequestHandlers(result,1));
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BasePath + "proxy.py"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BasePath + "adapterProxy.py"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {
@@ -183,6 +182,7 @@ public class Generator {
 
         List<String> queryParams = new ArrayList<>();
         List<String> headerParams = new ArrayList<>();
+        List<List<String>> bodyParams = new ArrayList<>();
 
         for (Parameter parameter: requestMessage.getParameters()) {
             if(parameter.key.startsWith("query")) {
@@ -193,6 +193,11 @@ public class Generator {
             if(parameter.key.startsWith("header")) {
                 String prId = parameter.key.split("\\|")[1];
                 headerParams.add(prId);
+            }
+
+            if(parameter.key.startsWith("json")) {
+                String prId = parameter.key.split("\\|")[1];
+                bodyParams.add(List.of(prId.split("\\.")));
             }
 
             bodyBuilder
@@ -206,7 +211,8 @@ public class Generator {
                 .append("\t".repeat(indentation))
                 .append(buildPath(endpoint, queryParams))
                 .append(buildHeaders(headerParams, indentation))
-                .append(buildBody(Collections.emptyList(), indentation))
+                .append(buildBody(bodyParams, indentation))
+                .append("\n")
                 .append("\t".repeat(indentation))
                 .append("return request");
 
@@ -371,41 +377,36 @@ public class Generator {
         if(bodyParams.isEmpty())
             return "";
 
-        StringBuilder bodyBuilder = new StringBuilder();
-
-        bodyBuilder
-                .append("\t".repeat(indentation))
-                .append("request.update_body(")
-                .append("\n")
-                .append("\t".repeat(indentation+1))
-                .append("TODO,")
-                .append("\n")
-                .append("\t".repeat(indentation+1))
-                .append("content_type=b'application/json',")
-                .append("\n")
-                .append("\t".repeat(indentation))
-                .append(")")
-                .append("\n")
-                .append("\n");
-
-        return bodyBuilder.toString();
+        return "\t".repeat(indentation) +
+                "request.update_body(" +
+                "\n" +
+                "\t".repeat(indentation + 1) +
+                formatBodyJsonParameters(bodyParams) +
+                "\n" +
+                "\t".repeat(indentation + 1) +
+                "content_type=b'application/json'," +
+                "\n" +
+                "\t".repeat(indentation) +
+                ")" +
+                "\n";
     }
 
-    private String formatBodyJsonParameters(List<List<String>> bodyParams) {
+    private static String formatBodyJsonParameters(List<List<String>> bodyParams) {
         class Node {
-            String id;
-            String valueId;
-            Set<Node> children;
+            final String id;
+            final String valueId;
+            final Set<Node> children;
 
-            public Node(String id, Set<Node> children) {
+            public Node(String id, String valueId, Set<Node> children) {
                 this.id = id;
+                this.valueId = valueId;
                 this.children = children;
             }
 
             @Override
             public String toString() {
                 if(children.isEmpty()) {
-                    return "\"" + id + "\": json_"+valueId;
+                    return "\"" + id + "\":\"' + json" +valueId+ " + '\"";
                 }
                 else {
                     StringBuilder objectBuilder = new StringBuilder();
@@ -443,12 +444,14 @@ public class Generator {
             }
         }
 
-        Node root = new Node("", new HashSet<>());
+        Node root = new Node("", "", new HashSet<>());
 
         for(List<String> p : bodyParams) {
             Node current = root;
+            StringBuilder acum = new StringBuilder();
             for(String s : p) {
-                Node newNode = new Node(s, new HashSet<>());
+                acum.append("_").append(s);
+                Node newNode = new Node(s, acum.toString(), new HashSet<>());
                 if(!current.children.contains(newNode)) {
                     current.children.add(newNode);
                     current = newNode;
@@ -461,17 +464,17 @@ public class Generator {
 
         StringBuilder contentBuilder = new StringBuilder();
 
-        contentBuilder.append("b'{");
+        contentBuilder.append("('{");
 
         int count=0;
         for (Node n : root.children) {
-            contentBuilder.append(n.toString());
-            if(count!=root.children.size()-1)
+            if(count!=0)
                 contentBuilder.append(", ");
+            contentBuilder.append(n.toString());
             count++;
         }
 
-        contentBuilder.append("}',");
+        contentBuilder.append("}').encode(),");
 
         return contentBuilder.toString();
     }

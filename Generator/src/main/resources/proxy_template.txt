@@ -7,7 +7,7 @@ from typing import Optional
 from ..http.proxy import HttpProxyBasePlugin
 from ..http.parser import HttpParser, httpParserTypes
 
-class ModifyPostDataPlugin(HttpProxyBasePlugin):
+class AdapterPlugin(HttpProxyBasePlugin):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.response = HttpParser(httpParserTypes.RESPONSE_PARSER)
@@ -27,16 +27,6 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
         return request
 
 #ENDPOINT_REQUEST_HANDLERS
-
-    def handle_upstream_chunk(
-        self, chunk: memoryview
-    ) -> Optional[memoryview]:
-        self.response.parse(chunk)
-        if self.response.is_complete:
-            if self.response.is_chunked_encoded:
-                self.response.body = b'\n'.join(self.DEFAULT_CHUNKS) + b'\n'
-            self.client.queue(memoryview(self.response.build_response()))
-        return None
 
     def build_query_dictionary(
         self, request: HttpParser,

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from typing import Optional
+from typing import List, Tuple, Optional
 
-from ..http.proxy import HttpProxyBasePlugin
-from ..http.parser import HttpParser
+from proxy.http.proxy import HttpProxyBasePlugin
+from proxy.http.parser import HttpParser
 
 MODIFIED_BODY = b'{"key": "modified"}'
 
-class MyReverseProxyPlugin(ReverseProxyBasePlugin):
+class AdapterPlugin(HttpProxyBasePlugin):
 
     def before_upstream_connection(
             self, request: HttpParser,
@@ -22,5 +22,3 @@ class MyReverseProxyPlugin(ReverseProxyBasePlugin):
                 content_type=b'application/json',
             )
         return request
-
-

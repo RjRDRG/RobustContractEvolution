@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/evolution1.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/evolution.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/adapterProxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo/adapterProxy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/interceptProxyPlugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo/adapterProxyOld.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/proxy.dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/demo/proxy.dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +51,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/Generator",
+    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/demo",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -53,8 +59,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Generator/src/main/resources" />
       <recent name="$PROJECT_DIR$/demo" />
+      <recent name="$PROJECT_DIR$/Generator/src/main/resources" />
       <recent name="$PROJECT_DIR$/Parser" />
       <recent name="$PROJECT_DIR$/demo/src/main/java/com/rce/demo" />
       <recent name="C:\Users\Rodrigo Ribeiro\IdeaProjects\RobustContractEvolution\Verifier\src\main\resources" />
@@ -198,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653902741688</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="wip">
+      <created>1653911952659</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1653911952659</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
