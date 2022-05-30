@@ -28,8 +28,8 @@ methods:
   - parameters:
     - key: json|specie.class.genus
       resolution: link=json|specie.class.genus
-    - key: json|name
-      resolution: link=json|name
+    - key: header|name
+      resolution: link=header|name
     - key: json|specie.class.family
       resolution: link=json|specie.class.family
     - key: json|specie.class.species

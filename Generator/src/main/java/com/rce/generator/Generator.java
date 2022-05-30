@@ -183,7 +183,20 @@ public class Generator {
                 .append(buildJsonBodyDictionary(indentation))
                 .append("\n");
 
+        List<Pair<String,String>> queryParams = new ArrayList<>();
+        List<Pair<String,String>> headerParams = new ArrayList<>();
+
         for (Parameter parameter: requestMessage.getParameters()) {
+            if(parameter.key.startsWith("query")) {
+                String prId = parameter.key.split("\\|")[1];
+                queryParams.add(Pair.of(prId, "query_"+prId));
+            }
+
+            if(parameter.key.startsWith("header")) {
+                String prId = parameter.key.split("\\|")[1];
+                headerParams.add(Pair.of(prId, "header_"+prId));
+            }
+
             bodyBuilder
                     .append("\t".repeat(indentation))
                     .append(buildEndpointRequestParameter(parameter))
@@ -193,20 +206,22 @@ public class Generator {
         bodyBuilder
                 .append("\n")
                 .append("\t".repeat(indentation))
-                .append(buildPath(endpoint, Collections.emptyList()));
+                .append(buildPath(endpoint, queryParams))
+                .append("\n")
+                .append(buildHeaders(headerParams, indentation));
 
         return bodyBuilder.toString();
     }
 
     private static String buildQueryParametersDictionary(int indentation) {
         return  "\t".repeat(indentation) +
-                "query = self.buildQueryDictionary(request)" +
+                "query = self.build_query_dictionary(request)" +
                 "\n";
     }
 
     private static String buildJsonBodyDictionary(int indentation) {
         return  "\t".repeat(indentation) +
-                "jsonBody = self.buildJsonBodyDictionary(request)" +
+                "jsonBody = self.build_json_body_dictionary(request)" +
                 "\n";
     }
 
@@ -282,7 +297,7 @@ public class Generator {
     }
 
     private static String getValueFromHeader(String parameterId) {
-        return "self.getHeader(\"" + parameterId + "\", request)";
+        return "self.get_header(\"" + parameterId + "\", request)";
     }
 
     private static String getValueFromBodyJson(String parameterId) {
@@ -306,25 +321,50 @@ public class Generator {
         for(int i=0; i<elements.size(); i++) {
             String s = elements.get(i);
             if(s.startsWith("{")) {
-                pathBuilder.append("path_").append(s, 1, s.length()-1).append(" + ");;
+                pathBuilder.append("path_").append(s, 1, s.length()-1);
             }
             else {
-                pathBuilder.append("\"").append(s).append("\" + ");
+                pathBuilder.append("\"").append(s).append("\"");
             }
-            pathBuilder.append("\"/\"");
             if(i!=elements.size()-1) {
-                pathBuilder.append(" + ");
+                pathBuilder.append(" + \"/\" + ");
+            }
+        }
+
+        if(!queryParams.isEmpty()) {
+            pathBuilder.append(" + \"?");
+            int count = 0;
+            for (Pair<String,String> p : queryParams) {
+                pathBuilder
+                        .append(p.getLeft())
+                        .append("=\" + ")
+                        .append(p.getRight());
+                if(count != queryParams.size()-1) {
+                    pathBuilder
+                            .append(" + \"")
+                            .append("&");
+                }
+                count++;
             }
         }
 
         return pathBuilder.toString();
     }
 
-    /*
-    private String buildHeaders(List<String> varNames) {
+    private static String buildHeaders(List<Pair<String, String>> headerParams, int indentation) {
+        StringBuilder headersBuilder = new StringBuilder();
 
+        for(Pair<String,String> p : headerParams) {
+            headersBuilder
+                    .append("\t".repeat(indentation))
+                    .append("request.add_header(\"").append(p.getLeft()).append("\".encode(), ").append(p.getRight()).append(".encode())")
+                    .append("\n");
+        }
+
+        return headersBuilder.toString();
     }
 
+    /*
     private String buildBody(List<String> varNames) {
 
     }*/

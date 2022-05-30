@@ -28,9 +28,6 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
 
 #ENDPOINT_REQUEST_HANDLERS
 
-
-
-
     def handle_upstream_chunk(
         self, chunk: memoryview
     ) -> Optional[memoryview]:
@@ -41,10 +38,7 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
             self.client.queue(memoryview(self.response.build_response()))
         return None
 
-
-
-
-    def buildQueryDictionary(
+    def build_query_dictionary(
         self, request: HttpParser,
     ) -> dict[str, str]:
         if request.path:
@@ -57,7 +51,7 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
         else:
             raise Exception()
 
-    def buildJsonBodyDictionary(
+    def build_json_body_dictionary(
         self, request: HttpParser,
     ):
         body = dict()
@@ -65,7 +59,7 @@ class ModifyPostDataPlugin(HttpProxyBasePlugin):
             body = json.loads(request,body)
         return body
 
-    def getHeader(
+    def get_header(
         self, headerKey: str, request: HttpParser,
     ) -> str:
         if request.headers:
