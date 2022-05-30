@@ -2,6 +2,7 @@ package com.rce.generator;
 
 import com.rce.common.io.ResultIO;
 import com.rce.common.structures.*;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Generator {
@@ -63,7 +65,7 @@ public class Generator {
             caseBuilder.append("[");
             if (e.startsWith("{")) {
                 caseBuilder
-                        .append("path_")
+                        .append("priorPath_")
                         .append(e, 1, e.length()-1);
             } else {
                 caseBuilder.append("\"").append(e).append("\"");
@@ -87,7 +89,7 @@ public class Generator {
         for (String e : endpoint.getPathElements()) {
             if (e.startsWith("{")) {
                 String var = e.substring(1, e.length()-1);
-                vars.add("path_" + var);
+                vars.add("priorPath_" + var);
                 nameBuilder.append(var);
             } else {
                 nameBuilder.append(e);
@@ -146,7 +148,7 @@ public class Generator {
         for (String e : priorEndpoint.getPathElements()) {
             if (e.startsWith("{")) {
                 String var = e.substring(1, e.length()-1);
-                vars.add("path_" + var);
+                vars.add("priorPath_" + var);
                 headerBuilder.append(var);
             } else {
                 headerBuilder.append(e);
@@ -178,14 +180,20 @@ public class Generator {
 
         bodyBuilder
                 .append(buildQueryParametersDictionary(indentation))
+                .append(buildJsonBodyDictionary(indentation))
                 .append("\n");
 
         for (Parameter parameter: requestMessage.getParameters()) {
             bodyBuilder
                     .append("\t".repeat(indentation))
-                    .append(buildEndpointRequestParameter(endpoint, parameter))
+                    .append(buildEndpointRequestParameter(parameter))
                     .append("\n");
         }
+
+        bodyBuilder
+                .append("\n")
+                .append("\t".repeat(indentation))
+                .append(buildPath(endpoint, Collections.emptyList()));
 
         return bodyBuilder.toString();
     }
@@ -196,16 +204,13 @@ public class Generator {
                 "\n";
     }
 
-    private static String buildBodyParametersDictionary(int indentation) {
+    private static String buildJsonBodyDictionary(int indentation) {
         return  "\t".repeat(indentation) +
                 "jsonBody = self.buildJsonBodyDictionary(request)" +
                 "\n";
     }
 
-    if request.body:
-    by = json.loads(request.body)
-
-    private static String buildEndpointRequestParameter(Endpoint endpoint, Parameter parameter) {
+    private static String buildEndpointRequestParameter(Parameter parameter) {
         StringBuilder parameterBuilder = new StringBuilder();
 
         String parameterType = parameter.getKey().split("\\|")[0];
@@ -213,16 +218,7 @@ public class Generator {
 
         switch (parameterType) {
             case "path": {
-                int varCount = 0;
-                for (String e : endpoint.getPathElements()) {
-                    if (e.startsWith("{")) {
-                        if (e.equals("{" + parameterId + "}"))
-                            break;
-                        else
-                            varCount++;
-                    }
-                }
-                parameterId = "path_" + varCount;
+                parameterId = "path_" + parameterId;
                 break;
             }
             case "query": {
@@ -278,7 +274,7 @@ public class Generator {
     }
 
     private static String getValueFromPath(String parameterId) {
-        return "path_" + parameterId;
+        return "priorPath_" + parameterId;
     }
 
     private static String getValueFromQuery(String parameterId) {
@@ -290,14 +286,41 @@ public class Generator {
     }
 
     private static String getValueFromBodyJson(String parameterId) {
-        return "self.getBodyJsonParameter(\"" + parameterId + "\", request)";
+        StringBuilder valueBuilder = new StringBuilder();
+        valueBuilder.append("jsonBody");
+        for(String s : parameterId.split("\\.")) {
+            valueBuilder
+                    .append("[\"")
+                    .append(s)
+                    .append("\"]");
+        }
+        return valueBuilder.toString();
     }
-/*
 
-    private String buildPath(List<String> segmentVarName, List<String> queryVarNames) {
+    private static String buildPath(Endpoint endpoint, List<Pair<String, String>> queryParams) {
+        StringBuilder pathBuilder = new StringBuilder();
 
+        pathBuilder.append("request.path = \"/\" + ");
+
+        List<String> elements = endpoint.getPathElements();
+        for(int i=0; i<elements.size(); i++) {
+            String s = elements.get(i);
+            if(s.startsWith("{")) {
+                pathBuilder.append("path_").append(s, 1, s.length()-1).append(" + ");;
+            }
+            else {
+                pathBuilder.append("\"").append(s).append("\" + ");
+            }
+            pathBuilder.append("\"/\"");
+            if(i!=elements.size()-1) {
+                pathBuilder.append(" + ");
+            }
+        }
+
+        return pathBuilder.toString();
     }
 
+    /*
     private String buildHeaders(List<String> varNames) {
 
     }
