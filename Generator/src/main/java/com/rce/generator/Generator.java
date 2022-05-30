@@ -9,9 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Generator {
     public static String BasePath = "./src/main/resources/";
@@ -183,18 +181,18 @@ public class Generator {
                 .append(buildJsonBodyDictionary(indentation))
                 .append("\n");
 
-        List<Pair<String,String>> queryParams = new ArrayList<>();
-        List<Pair<String,String>> headerParams = new ArrayList<>();
+        List<String> queryParams = new ArrayList<>();
+        List<String> headerParams = new ArrayList<>();
 
         for (Parameter parameter: requestMessage.getParameters()) {
             if(parameter.key.startsWith("query")) {
                 String prId = parameter.key.split("\\|")[1];
-                queryParams.add(Pair.of(prId, "query_"+prId));
+                queryParams.add(prId);
             }
 
             if(parameter.key.startsWith("header")) {
                 String prId = parameter.key.split("\\|")[1];
-                headerParams.add(Pair.of(prId, "header_"+prId));
+                headerParams.add(prId);
             }
 
             bodyBuilder
@@ -207,8 +205,10 @@ public class Generator {
                 .append("\n")
                 .append("\t".repeat(indentation))
                 .append(buildPath(endpoint, queryParams))
-                .append("\n")
-                .append(buildHeaders(headerParams, indentation));
+                .append(buildHeaders(headerParams, indentation))
+                .append(buildBody(Collections.emptyList(), indentation))
+                .append("\t".repeat(indentation))
+                .append("return request");
 
         return bodyBuilder.toString();
     }
@@ -312,7 +312,7 @@ public class Generator {
         return valueBuilder.toString();
     }
 
-    private static String buildPath(Endpoint endpoint, List<Pair<String, String>> queryParams) {
+    private static String buildPath(Endpoint endpoint, List<String> queryParams) {
         StringBuilder pathBuilder = new StringBuilder();
 
         pathBuilder.append("request.path = \"/\" + ");
@@ -334,11 +334,12 @@ public class Generator {
         if(!queryParams.isEmpty()) {
             pathBuilder.append(" + \"?");
             int count = 0;
-            for (Pair<String,String> p : queryParams) {
+            for (String p : queryParams) {
                 pathBuilder
-                        .append(p.getLeft())
+                        .append(p)
                         .append("=\" + ")
-                        .append(p.getRight());
+                        .append("query_")
+                        .append(p);
                 if(count != queryParams.size()-1) {
                     pathBuilder
                             .append(" + \"")
@@ -348,24 +349,138 @@ public class Generator {
             }
         }
 
+        pathBuilder.append("\n");
+
         return pathBuilder.toString();
     }
 
-    private static String buildHeaders(List<Pair<String, String>> headerParams, int indentation) {
+    private static String buildHeaders(List<String> headerParams, int indentation) {
         StringBuilder headersBuilder = new StringBuilder();
 
-        for(Pair<String,String> p : headerParams) {
+        for(String p : headerParams) {
             headersBuilder
                     .append("\t".repeat(indentation))
-                    .append("request.add_header(\"").append(p.getLeft()).append("\".encode(), ").append(p.getRight()).append(".encode())")
+                    .append("request.add_header(\"").append(p).append("\".encode(), ").append("header_").append(p).append(".encode())")
                     .append("\n");
         }
 
         return headersBuilder.toString();
     }
 
-    /*
-    private String buildBody(List<String> varNames) {
+    private static String buildBody(List<List<String>> bodyParams, int indentation) {
+        if(bodyParams.isEmpty())
+            return "";
 
-    }*/
+        StringBuilder bodyBuilder = new StringBuilder();
+
+        bodyBuilder
+                .append("\t".repeat(indentation))
+                .append("request.update_body(")
+                .append("\n")
+                .append("\t".repeat(indentation+1))
+                .append("TODO,")
+                .append("\n")
+                .append("\t".repeat(indentation+1))
+                .append("content_type=b'application/json',")
+                .append("\n")
+                .append("\t".repeat(indentation))
+                .append(")")
+                .append("\n")
+                .append("\n");
+
+        return bodyBuilder.toString();
+    }
+
+    private String formatBodyJsonParameters(List<List<String>> bodyParams) {
+        class Node {
+            String id;
+            String valueId;
+            Set<Node> children;
+
+            public Node(String id, Set<Node> children) {
+                this.id = id;
+                this.children = children;
+            }
+
+            @Override
+            public String toString() {
+                if(children.isEmpty()) {
+                    return "\"" + id + "\": json_"+valueId;
+                }
+                else {
+                    StringBuilder objectBuilder = new StringBuilder();
+                    objectBuilder
+                            .append("\"")
+                            .append(id)
+                            .append("\":{");
+
+                    int count = 0;
+                    for (Node n: children) {
+                        if(count!=0) {
+                            objectBuilder.append(", ");
+                        }
+                        objectBuilder.append(n.toString());
+                        count++;
+                    }
+
+                    objectBuilder.append("}");
+
+                    return objectBuilder.toString();
+                }
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Node node = (Node) o;
+                return id.equals(node.id);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(id);
+            }
+        }
+
+        Node root = new Node("", new HashSet<>());
+
+        for(List<String> p : bodyParams) {
+            Node current = root;
+            for(String s : p) {
+                Node newNode = new Node(s, new HashSet<>());
+                if(!current.children.contains(newNode)) {
+                    current.children.add(newNode);
+                    current = newNode;
+                }
+                else {
+                    current = current.children.stream().filter(c->c.id.equals(s)).findAny().get();
+                }
+            }
+        }
+
+        StringBuilder contentBuilder = new StringBuilder();
+
+        contentBuilder.append("b'{");
+
+        int count=0;
+        for (Node n : root.children) {
+            contentBuilder.append(n.toString());
+            if(count!=root.children.size()-1)
+                contentBuilder.append(", ");
+            count++;
+        }
+
+        contentBuilder.append("}',");
+
+        return contentBuilder.toString();
+    }
+
+    /*
+            if request.body:
+            request.update_body(
+                b'{"key": "modified"}',
+                content_type=b'application/json',
+            )
+            */
 }

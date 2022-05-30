@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653897782120</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="wip">
+      <created>1653902741688</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1653902741688</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

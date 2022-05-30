@@ -18,7 +18,7 @@ class AdapterPlugin(HttpProxyBasePlugin):
     ) -> Optional[HttpParser]:
         if request.body:
             request.update_body(
-                MODIFIED_BODY,
+                b'{"key": "modified"}',
                 content_type=b'application/json',
             )
         return request

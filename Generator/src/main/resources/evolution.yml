@@ -27,7 +27,7 @@ methods:
   messages:
   - parameters:
     - key: json|specie.class.genus
-      resolution: link=json|specie.class.genus
+      resolution: value=c0c0
     - key: header|name
       resolution: link=header|name
     - key: json|specie.class.family
