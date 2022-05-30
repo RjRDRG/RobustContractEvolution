@@ -1,0 +1,101 @@
+!!com.rce.common.structures.Result
+methods:
+- endpoint: /pets GET
+  endpointPrior: /pets GET
+  messages:
+  - parameters:
+    - key: query|tags
+      resolution: link=query|tags
+    - key: query|limit
+      resolution: link=query|limit
+    type: request
+    typePrior: request
+  - parameters:
+    - key: json|
+      resolution: link=json|
+    type: '200'
+    typePrior: '200'
+  - parameters:
+    - key: json|message
+      resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
+    type: default
+    typePrior: default
+- endpoint: /pets POST
+  endpointPrior: /pets POST
+  messages:
+  - parameters:
+    - key: json|specie.class.genus
+      resolution: link=json|specie.class.genus
+    - key: json|name
+      resolution: link=json|name
+    - key: json|specie.class.family
+      resolution: link=json|specie.class.family
+    - key: json|specie.class.species
+      resolution: link=json|specie.class.species
+    - key: json|tag
+      resolution: link=json|tag
+    - key: json|specie.name
+      resolution: link=json|specie.name
+    - key: json|specie.class.order
+      resolution: link=json|specie.class.order
+    - key: json|specie.class.phylum
+      resolution: link=json|specie.class.phylum
+    - key: json|specie.tag
+      resolution: link=json|specie.tag
+    - key: json|specie.class.kingdom
+      resolution: link=json|specie.class.kingdom
+    type: request
+    typePrior: request
+  - parameters:
+    - key: json|id
+      resolution: link=json|id
+    type: '200'
+    typePrior: '200'
+  - parameters:
+    - key: json|message
+      resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
+    type: default
+    typePrior: default
+- endpoint: /pets/{id} DELETE
+  endpointPrior: /pet/{id} DELETE
+  messages:
+  - parameters:
+    - key: path|id
+      resolution: link=path|id
+    type: request
+    typePrior: request
+  - parameters: [
+      ]
+    type: '204'
+    typePrior: '204'
+  - parameters:
+    - key: json|message
+      resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
+    type: default
+    typePrior: default
+- endpoint: /pets/{id} GET
+  endpointPrior: /pet/{id} GET
+  messages:
+  - parameters:
+    - key: path|id
+      resolution: link=path|id
+    type: request
+    typePrior: request
+  - parameters:
+    - key: json|id
+      resolution: link=json|id
+    type: '200'
+    typePrior: '200'
+  - parameters:
+    - key: json|message
+      resolution: link=json|message
+    - key: json|code
+      resolution: link=json|code
+    type: default
+    typePrior: default

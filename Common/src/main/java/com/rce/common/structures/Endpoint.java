@@ -1,5 +1,8 @@
 package com.rce.common.structures;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Endpoint {
@@ -49,6 +52,17 @@ public class Endpoint {
     @Override
     public String toString() {
         return path + " " + method;
+    }
+
+    // /pet/{id} GET
+    // case ["pets"], [pathId], ["get"]:
+    //     return self.petsIdGet(pathId, request)
+
+    public List<String> getPathElements() {
+        List<String> l = new ArrayList<>(List.of(path.split("/")));
+        l.removeAll(Collections.singleton(null));
+        l.removeAll(Collections.singleton(""));
+        return l;
     }
 
     public static Endpoint fromString(String s) {

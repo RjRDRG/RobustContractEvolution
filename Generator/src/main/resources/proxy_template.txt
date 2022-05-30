@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+
+from typing import Optional
+
+from ..http.proxy import HttpProxyBasePlugin
+from ..http.parser import HttpParser
+
+
+class ModifyPostDataPlugin(HttpProxyBasePlugin):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.response = HttpParser(httpParserTypes.RESPONSE_PARSER)
+
+    def handle_client_request(
+            self, request: HttpParser,
+    ) -> Optional[HttpParser]:
+        if request.path:
+            temp = request.path.decode().split("?")
+            endpoint = temp[0].split("//")
+            endpoint = list(filter(None, endpoint))
+            if request.method:
+                endpoint.append(request.method.decode().lower())
+
+            match endpoint:
+#ENDPOINT_REQUEST_CASES
+
+        return request
+
+#ENDPOINT_REQUEST_HANDLERS
+
+    def handle_upstream_chunk(self, chunk: memoryview) -> Optional[memoryview]:
+        self.response.parse(chunk)
+        if self.response.is_complete:
+            if self.response.is_chunked_encoded:
+                self.response.body = b'\n'.join(self.DEFAULT_CHUNKS) + b'\n'
+            self.client.queue(memoryview(self.response.build_response()))
+        return None
+

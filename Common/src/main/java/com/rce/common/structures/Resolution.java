@@ -7,7 +7,6 @@ public class Resolution {
     public enum Type {LINK, VALUE, FUNCTION}
 
     public static String TypeSeparator = "=";
-    public static String LinkSeparator = "=";
 
     public final String resolution;
 
