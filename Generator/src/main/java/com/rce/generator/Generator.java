@@ -11,17 +11,19 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Generator {
-    public static String BasePath = "./src/main/resources/";
+    final static String BASE_PATH = "./src/main/resources/";
+    final static String INDENT = "    ";
+
 
     public static void main(String[] args) {
         try {
-            Result result = ResultIO.readFromYaml(BasePath + "evolution.yml");
-            String template = Files.readString(Path.of(BasePath + "proxy_template.txt"));
+            Result result = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
+            String template = Files.readString(Path.of(BASE_PATH + "proxy_template.txt"));
 
             template = template.replace("#ENDPOINT_REQUEST_CASES", buildEndpointRequestCases(result,4));
             template = template.replace("#ENDPOINT_REQUEST_HANDLERS", buildEndpointRequestHandlers(result,1));
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BasePath + "adapterProxy.py"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "adapterProxy.py"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {
@@ -35,17 +37,17 @@ public class Generator {
             Endpoint endpoint = Endpoint.fromString(method.endpointPrior);
 
             casesBuilder
-                    .append("\t".repeat(indentation))
+                    .append(INDENT.repeat(indentation))
                     .append(buildEndpointRequestCase(endpoint))
-                    .append("\n").append("\t".repeat(indentation)).append("\t")
+                    .append("\n").append(INDENT.repeat(indentation)).append(INDENT)
                     .append(buildEndpointRequestMethodName(endpoint))
                     .append("\n");
         }
 
         casesBuilder
-                .append("\t".repeat(indentation))
+                .append(INDENT.repeat(indentation))
                 .append("case _:")
-                .append("\n").append("\t".repeat(indentation)).append("\t")
+                .append("\n").append(INDENT.repeat(indentation)).append(INDENT)
                 .append("return request");
 
         return casesBuilder.toString();
@@ -53,13 +55,13 @@ public class Generator {
 
     private static String buildEndpointRequestCase(Endpoint endpoint) {
         StringBuilder caseBuilder = new StringBuilder();
-        caseBuilder.append("case ");
+        caseBuilder.append("case");
 
         List<String> elms = endpoint.getPathElements();
 
+        caseBuilder.append("[");
         for (int i = 0; i < elms.size(); i++) {
             String e = elms.get(i);
-            caseBuilder.append("[");
             if (e.startsWith("{")) {
                 caseBuilder
                         .append("priorPath_")
@@ -67,10 +69,10 @@ public class Generator {
             } else {
                 caseBuilder.append("\"").append(e).append("\"");
             }
-            caseBuilder.append("], ");
+            caseBuilder.append(", ");
         }
 
-        caseBuilder.append("[\"").append(endpoint.getMethod().name().toLowerCase()).append("\"]:");
+        caseBuilder.append("\"").append(endpoint.getMethod().name().toLowerCase()).append("\"]:");
 
         return caseBuilder.toString();
     }
@@ -137,7 +139,7 @@ public class Generator {
         StringBuilder headerBuilder = new StringBuilder();
 
         headerBuilder
-                .append("\t".repeat(indentation))
+                .append(INDENT.repeat(indentation))
                 .append("def handle_");
 
         List<String> vars = new ArrayList<>();
@@ -155,8 +157,8 @@ public class Generator {
         headerBuilder
                 .append(priorEndpoint.getMethod().name().toLowerCase())
                 .append("_request(\n")
-                .append("\t".repeat(indentation))
-                .append("\t")
+                .append(INDENT.repeat(indentation))
+                .append(INDENT)
                 .append("self, ");
 
         for(String var : vars) {
@@ -166,7 +168,7 @@ public class Generator {
         headerBuilder
                 .append("request: HttpParser,")
                 .append("\n")
-                .append("\t".repeat(indentation))
+                .append(INDENT.repeat(indentation))
                 .append(") -> Optional[HttpParser]:");
 
         return headerBuilder.toString();
@@ -177,8 +179,7 @@ public class Generator {
 
         bodyBuilder
                 .append(buildQueryParametersDictionary(indentation))
-                .append(buildJsonBodyDictionary(indentation))
-                .append("\n");
+                .append(buildJsonBodyDictionary(indentation));
 
         List<String> queryParams = new ArrayList<>();
         List<String> headerParams = new ArrayList<>();
@@ -201,33 +202,30 @@ public class Generator {
             }
 
             bodyBuilder
-                    .append("\t".repeat(indentation))
+                    .append(INDENT.repeat(indentation))
                     .append(buildEndpointRequestParameter(parameter))
                     .append("\n");
         }
 
         bodyBuilder
-                .append("\n")
-                .append("\t".repeat(indentation))
-                .append(buildPath(endpoint, queryParams))
+                .append(buildPath(endpoint, queryParams, indentation))
                 .append(buildHeaders(headerParams, indentation))
                 .append(buildBody(bodyParams, indentation))
-                .append("\n")
-                .append("\t".repeat(indentation))
+                .append(INDENT.repeat(indentation))
                 .append("return request");
 
         return bodyBuilder.toString();
     }
 
     private static String buildQueryParametersDictionary(int indentation) {
-        return  "\t".repeat(indentation) +
+        return  INDENT.repeat(indentation) +
                 "query = self.build_query_dictionary(request)" +
                 "\n";
     }
 
     private static String buildJsonBodyDictionary(int indentation) {
-        return  "\t".repeat(indentation) +
-                "jsonBody = self.build_json_body_dictionary(request)" +
+        return  INDENT.repeat(indentation) +
+                "json_body = self.build_json_body_dictionary(request)" +
                 "\n";
     }
 
@@ -308,7 +306,7 @@ public class Generator {
 
     private static String getValueFromBodyJson(String parameterId) {
         StringBuilder valueBuilder = new StringBuilder();
-        valueBuilder.append("jsonBody");
+        valueBuilder.append("json_body");
         for(String s : parameterId.split("\\.")) {
             valueBuilder
                     .append("[\"")
@@ -318,10 +316,12 @@ public class Generator {
         return valueBuilder.toString();
     }
 
-    private static String buildPath(Endpoint endpoint, List<String> queryParams) {
+    private static String buildPath(Endpoint endpoint, List<String> queryParams, int indentation) {
         StringBuilder pathBuilder = new StringBuilder();
 
-        pathBuilder.append("request.path = \"/\" + ");
+        pathBuilder
+                .append(INDENT.repeat(indentation))
+                .append("request.path = (\"/\" + ");
 
         List<String> elements = endpoint.getPathElements();
         for(int i=0; i<elements.size(); i++) {
@@ -355,7 +355,15 @@ public class Generator {
             }
         }
 
-        pathBuilder.append("\n");
+        pathBuilder.append(").encode()");
+
+        pathBuilder
+                .append("\n")
+                .append(INDENT.repeat(indentation))
+                .append("request.method = b\"")
+                .append(endpoint.getMethod().name().toUpperCase())
+                .append("\"")
+                .append("\n");
 
         return pathBuilder.toString();
     }
@@ -365,7 +373,7 @@ public class Generator {
 
         for(String p : headerParams) {
             headersBuilder
-                    .append("\t".repeat(indentation))
+                    .append(INDENT.repeat(indentation))
                     .append("request.add_header(\"").append(p).append("\".encode(), ").append("header_").append(p).append(".encode())")
                     .append("\n");
         }
@@ -377,16 +385,16 @@ public class Generator {
         if(bodyParams.isEmpty())
             return "";
 
-        return "\t".repeat(indentation) +
+        return INDENT.repeat(indentation) +
                 "request.update_body(" +
                 "\n" +
-                "\t".repeat(indentation + 1) +
+                INDENT.repeat(indentation + 1) +
                 formatBodyJsonParameters(bodyParams) +
                 "\n" +
-                "\t".repeat(indentation + 1) +
+                INDENT.repeat(indentation + 1) +
                 "content_type=b'application/json'," +
                 "\n" +
-                "\t".repeat(indentation) +
+                INDENT.repeat(indentation) +
                 ")" +
                 "\n";
     }
@@ -479,11 +487,4 @@ public class Generator {
         return contentBuilder.toString();
     }
 
-    /*
-            if request.body:
-            request.update_body(
-                b'{"key": "modified"}',
-                content_type=b'application/json',
-            )
-            */
 }
