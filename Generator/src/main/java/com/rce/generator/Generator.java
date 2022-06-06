@@ -20,8 +20,8 @@ public class Generator {
             Result result = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
             String template = Files.readString(Path.of(BASE_PATH + "proxy_template.txt"));
 
-            template = template.replace("#ENDPOINT_REQUEST_CASES", buildEndpointRequestCases(result,4));
-            template = template.replace("#ENDPOINT_REQUEST_HANDLERS", buildEndpointRequestHandlers(result,1));
+            template = template.replace("#ENDPOINT_MESSAGE_CASES", buildEndpointCases(result,4));
+            template = template.replace("#ENDPOINT_MESSAGE_HANDLERS", buildEndpointHandlers(result,1));
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "adapterProxy.py"));
             writer.write(template);
@@ -31,53 +31,63 @@ public class Generator {
         }
     }
 
-    private static String buildEndpointRequestCases(Result result, int indentation) {
+    private static String buildEndpointCases(Result result, int indentation) {
         StringBuilder casesBuilder = new StringBuilder();
         for (Method method : result.getMethods()) {
             Endpoint endpoint = Endpoint.fromString(method.endpointPrior);
 
-            casesBuilder
-                    .append(INDENT.repeat(indentation))
-                    .append(buildEndpointRequestCase(endpoint))
-                    .append("\n").append(INDENT.repeat(indentation)).append(INDENT)
-                    .append(buildEndpointRequestMethodName(endpoint))
-                    .append("\n");
+            for (Message message : method.getMessages()) {
+                casesBuilder
+                        .append(INDENT.repeat(indentation))
+                        .append(buildEndpointCase(endpoint, message))
+                        .append("\n").append(INDENT.repeat(indentation)).append(INDENT)
+                        .append(buildEndpointHandlerName(endpoint, message))
+                        .append("\n");
+            }
         }
 
         casesBuilder
                 .append(INDENT.repeat(indentation))
                 .append("case _:")
                 .append("\n").append(INDENT.repeat(indentation)).append(INDENT)
-                .append("return request");
+                .append("return message");
 
         return casesBuilder.toString();
     }
 
-    private static String buildEndpointRequestCase(Endpoint endpoint) {
+    private static String buildEndpointCase(Endpoint endpoint, Message message) {
         StringBuilder caseBuilder = new StringBuilder();
         caseBuilder.append("case");
 
         List<String> elms = endpoint.getPathElements();
 
         caseBuilder.append("[");
-        for (int i = 0; i < elms.size(); i++) {
-            String e = elms.get(i);
+        for (String e : elms) {
             if (e.startsWith("{")) {
                 caseBuilder
                         .append("priorPath_")
-                        .append(e, 1, e.length()-1);
+                        .append(e, 1, e.length() - 1);
             } else {
                 caseBuilder.append("\"").append(e).append("\"");
             }
             caseBuilder.append(", ");
         }
 
-        caseBuilder.append("\"").append(endpoint.getMethod().name().toLowerCase()).append("\"]:");
+        caseBuilder
+                .append("\"")
+                .append(endpoint.getMethod().name().toLowerCase());
+
+        if(!message.typePrior.equals("request")) {
+            caseBuilder
+                    .append("\", \"")
+                    .append(message.typePrior);
+        }
+        caseBuilder.append("\"]:");
 
         return caseBuilder.toString();
     }
 
-    private static String buildEndpointRequestMethodName(Endpoint endpoint) {
+    private static String buildEndpointHandlerName(Endpoint endpoint, Message message) {
         StringBuilder nameBuilder = new StringBuilder();
 
         nameBuilder
@@ -97,45 +107,40 @@ public class Generator {
 
         nameBuilder
                 .append(endpoint.getMethod().name().toLowerCase())
-                .append("_request(");
+                .append("_")
+                .append(message.typePrior)
+                .append("(");
 
         for(String var : vars) {
             nameBuilder.append(var).append(", ");
         }
 
-        nameBuilder.append("request)");
+        nameBuilder.append("message)");
 
         return nameBuilder.toString();
     }
 
-    private static String buildEndpointRequestHandlers(Result result, int indentation) {
+    private static String buildEndpointHandlers(Result result, int indentation) {
         StringBuilder handlersBuilder = new StringBuilder();
 
         for (Method method : result.getMethods()) {
-            handlersBuilder
-                    .append(buildEndpointRequestHandler(method, indentation))
-                    .append("\n\n");
+            Endpoint endpoint = Endpoint.fromString(method.endpoint);
+            Endpoint priorEndpoint = Endpoint.fromString(method.endpointPrior);
+
+            for(Message message : method.getMessages()) {
+
+                handlersBuilder
+                        .append(buildEndpointHandlerDefinition(priorEndpoint, message, indentation))
+                        .append("\n")
+                        .append(buildEndpointHandlerImpl(endpoint, message, indentation + 1))
+                        .append("\n\n");
+            }
         }
 
         return handlersBuilder.toString();
     }
 
-    private static String buildEndpointRequestHandler(Method method, int indentation) {
-        StringBuilder handlerBuilder = new StringBuilder();
-
-        Endpoint endpoint = Endpoint.fromString(method.endpoint);
-        Endpoint priorEndpoint = Endpoint.fromString(method.endpointPrior);
-        Message requestMessage = method.getMessages().stream().filter(m->m.type.equals(Message.REQUEST)).findFirst().get();
-
-        handlerBuilder
-                .append(buildEndpointRequestHandlerDefinition(priorEndpoint,indentation))
-                .append("\n")
-                .append(buildEndpointRequestHandlerImpl(endpoint, requestMessage, indentation+1));
-
-        return handlerBuilder.toString();
-    }
-
-    private static String buildEndpointRequestHandlerDefinition(Endpoint priorEndpoint, int indentation) {
+    private static String buildEndpointHandlerDefinition(Endpoint priorEndpoint, Message message, int indentation) {
         StringBuilder headerBuilder = new StringBuilder();
 
         headerBuilder
@@ -156,7 +161,9 @@ public class Generator {
 
         headerBuilder
                 .append(priorEndpoint.getMethod().name().toLowerCase())
-                .append("_request(\n")
+                .append("_")
+                .append(message.typePrior)
+                .append("(\n")
                 .append(INDENT.repeat(indentation))
                 .append(INDENT)
                 .append("self, ");
@@ -166,7 +173,7 @@ public class Generator {
         }
 
         headerBuilder
-                .append("request: HttpParser,")
+                .append("message: HttpParser,")
                 .append("\n")
                 .append(INDENT.repeat(indentation))
                 .append(") -> Optional[HttpParser]:");
@@ -174,18 +181,20 @@ public class Generator {
         return headerBuilder.toString();
     }
 
-    private static String buildEndpointRequestHandlerImpl(Endpoint endpoint, Message requestMessage, int indentation) {
+    private static String buildEndpointHandlerImpl(Endpoint endpoint, Message message, int indentation) {
         StringBuilder bodyBuilder = new StringBuilder();
 
-        bodyBuilder
-                .append(buildQueryParametersDictionary(indentation))
-                .append(buildJsonBodyDictionary(indentation));
+        if(message.typePrior.equals("request")) {
+            bodyBuilder.append(buildQueryParametersDictionary(indentation));
+        }
+
+        bodyBuilder.append(buildJsonBodyDictionary(indentation));
 
         List<String> queryParams = new ArrayList<>();
         List<String> headerParams = new ArrayList<>();
         List<List<String>> bodyParams = new ArrayList<>();
 
-        for (Parameter parameter: requestMessage.getParameters()) {
+        for (Parameter parameter: message.getParameters()) {
             if(parameter.key.startsWith("query")) {
                 String prId = parameter.key.split("\\|")[1];
                 queryParams.add(prId);
@@ -207,25 +216,31 @@ public class Generator {
                     .append("\n");
         }
 
+        if(message.typePrior.equals("request")) {
+            bodyBuilder.append(buildPath(endpoint, queryParams, indentation));
+        }
+        else {
+            bodyBuilder.append(buildCode(message, indentation));
+        }
+
         bodyBuilder
-                .append(buildPath(endpoint, queryParams, indentation))
                 .append(buildHeaders(headerParams, indentation))
                 .append(buildBody(bodyParams, indentation))
                 .append(INDENT.repeat(indentation))
-                .append("return request");
+                .append("return message");
 
         return bodyBuilder.toString();
     }
 
     private static String buildQueryParametersDictionary(int indentation) {
         return  INDENT.repeat(indentation) +
-                "query = self.build_query_dictionary(request)" +
+                "query = self.build_query_dictionary(message)" +
                 "\n";
     }
 
     private static String buildJsonBodyDictionary(int indentation) {
         return  INDENT.repeat(indentation) +
-                "json_body = self.build_json_body_dictionary(request)" +
+                "body = self.build_json_body_dictionary(message)" +
                 "\n";
     }
 
@@ -301,12 +316,12 @@ public class Generator {
     }
 
     private static String getValueFromHeader(String parameterId) {
-        return "self.get_header(\"" + parameterId + "\", request)";
+        return "self.get_header(\"" + parameterId + "\", message)";
     }
 
     private static String getValueFromBodyJson(String parameterId) {
         StringBuilder valueBuilder = new StringBuilder();
-        valueBuilder.append("json_body");
+        valueBuilder.append("body");
         for(String s : parameterId.split("\\.")) {
             valueBuilder
                     .append("[\"")
@@ -321,7 +336,7 @@ public class Generator {
 
         pathBuilder
                 .append(INDENT.repeat(indentation))
-                .append("request.path = (\"/\" + ");
+                .append("message.path = (\"/\" + ");
 
         List<String> elements = endpoint.getPathElements();
         for(int i=0; i<elements.size(); i++) {
@@ -360,12 +375,19 @@ public class Generator {
         pathBuilder
                 .append("\n")
                 .append(INDENT.repeat(indentation))
-                .append("request.method = b\"")
+                .append("message.method = b\"")
                 .append(endpoint.getMethod().name().toUpperCase())
                 .append("\"")
                 .append("\n");
 
         return pathBuilder.toString();
+    }
+
+    private static String buildCode(Message message, int indentation) {
+        return INDENT.repeat(indentation) +
+                "message.code = b'" +
+                message.type +
+                "'\n";
     }
 
     private static String buildHeaders(List<String> headerParams, int indentation) {
@@ -374,7 +396,7 @@ public class Generator {
         for(String p : headerParams) {
             headersBuilder
                     .append(INDENT.repeat(indentation))
-                    .append("request.add_header(\"").append(p).append("\".encode(), ").append("header_").append(p).append(".encode())")
+                    .append("message.add_header(\"").append(p).append("\".encode(), ").append("header_").append(p).append(".encode())")
                     .append("\n");
         }
 
@@ -386,7 +408,10 @@ public class Generator {
             return "";
 
         return INDENT.repeat(indentation) +
-                "request.update_body(" +
+                "message.body = b\"\"" +
+                "\n" +
+                INDENT.repeat(indentation) +
+                "message.update_body(" +
                 "\n" +
                 INDENT.repeat(indentation + 1) +
                 formatBodyJsonParameters(bodyParams) +

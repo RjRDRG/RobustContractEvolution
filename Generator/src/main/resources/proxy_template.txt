@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import copy
 
 from typing import List, Tuple, Optional
 
@@ -9,51 +10,55 @@ from proxy.http.parser import HttpParser, httpParserTypes
 
 class AdapterPlugin(HttpProxyBasePlugin):
 
-    DEFAULT_CHUNKS = [
-        b'modify',
-        b'chunk',
-        b'response',
-        b'plugin',
-    ]
-
     def __init__(self, *args: any, **kwargs: any) -> None:
         super().__init__(*args, **kwargs)
         self.response = HttpParser(httpParserTypes.RESPONSE_PARSER)
-        self.requests = []
+        self.request = None
 
     def before_upstream_connection(
-            self, request: HttpParser,
+        self, request: HttpParser,
     ) -> Optional[HttpParser]:
-        return self.handle_service_request(request)
+        self.request = request
+        return self.handle_message(copy.deepcopy(request), None)
 
     def handle_client_request(
             self, request: HttpParser,
     ) -> Optional[HttpParser]:
-        self.requests.append(request)
-        return self.handle_service_request(request)
+        if self.request is None:
+            self.request = request
+            return self.handle_message(copy.deepcopy(request), None)
+        else:
+            return request
 
     def handle_upstream_chunk(self, chunk: memoryview) -> Optional[memoryview]:
         self.response.parse(chunk)
         if self.response.is_complete:
-            request = requests.pop(0)
-            if self.response.is_chunked_encoded:
-                self.response.body = b'\n'.join(self.DEFAULT_CHUNKS) + b'\n'
+            self.response = self.handle_message(self.request, self.response)
             self.client.queue(memoryview(self.response.build_response()))
+            self.response = HttpParser(httpParserTypes.RESPONSE_PARSER)
+            self.request = None
         return None
 
-    def handle_service_request(
-        self, request: HttpParser,
+    def handle_message(
+        self, request: HttpParser, response: Optional[HttpParser]
     ) -> Optional[HttpParser]:
         if request.path:
             endpoint = request.path.decode().split("?")[0].split("/")
             endpoint = list(filter(None, endpoint))
             if request.method:
                 endpoint.append(request.method.decode().lower())
+            if response:
+                endpoint.append(response.code.decode().lower())
+            message = None
+            if response:
+                message = response
+            else:
+                message = request
             match endpoint:
-#ENDPOINT_REQUEST_CASES
-        return request
+#ENDPOINT_MESSAGE_CASES
+        return message
 
-#ENDPOINT_REQUEST_HANDLERS
+#ENDPOINT_MESSAGE_HANDLERS
 
     def build_query_dictionary(
         self, request: HttpParser,
@@ -72,18 +77,17 @@ class AdapterPlugin(HttpProxyBasePlugin):
             return dict()
 
     def build_json_body_dictionary(
-        self, request: HttpParser,
+        self, message: HttpParser,
     ):
-        body = dict()
-        if request.body:
-            body = json.loads(request.body)
-        return body
+        if message.body:
+            return json.loads(message.body)
+        return dict()
 
     def get_header(
-        self, headerKey: str, request: HttpParser,
+        self, headerKey: str, message: HttpParser,
     ) -> str:
-        if request.headers:
-            aux = request.headers.get(headerKey.encode())
+        if message.headers:
+            aux = message.headers.get(headerKey.encode())
             if aux:
                 return aux[1].decode()
             else:

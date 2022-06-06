@@ -8,6 +8,15 @@ methods:
       resolution: link=json|id
     type: request
     typePrior: request
+  - parameters:
+    - key: json|name
+      resolution: value=joão2
+    - key: json|email
+      resolution: link=json|address
+    - key: json|mainAddress
+      resolution: link=json|email
+    type: '200'
+    typePrior: '200'
 - endpoint: /user POST
   endpointPrior: /user/service PUT
   messages:
