@@ -83,10 +83,7 @@ class AdapterPlugin(HttpProxyBasePlugin):
         json_email = body["address"]
         json_mainAddress = body["email"]
         message.code = b'200'
-        message.update_body(
-            ('{"name":"' + json_name + '", "email":"' + json_email + '", "mainAddress":"' + json_mainAddress + '"}').encode(),
-            content_type=b'application/json',
-        )
+        message.body = ('{"name":"' + json_name + '", "email":"' + json_email + '", "mainAddress":"' + json_mainAddress + '"}').encode()
         return message
 
     def handle_userserviceput_request(

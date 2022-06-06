@@ -7,8 +7,6 @@
     <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxy_template.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/adapterProxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo/adapterProxy.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -220,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654450847362</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="wip">
+      <created>1654475623880</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1654475623880</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

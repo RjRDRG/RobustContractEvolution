@@ -224,8 +224,17 @@ public class Generator {
         }
 
         bodyBuilder
-                .append(buildHeaders(headerParams, indentation))
-                .append(buildBody(bodyParams, indentation))
+                .append(buildHeaders(headerParams, indentation));
+
+        if(message.typePrior.equals("request")) {
+            bodyBuilder
+                    .append(buildRequestBody(bodyParams, indentation));
+        }else {
+            bodyBuilder
+                    .append(buildResponseBody(bodyParams, indentation));
+        }
+
+        bodyBuilder
                 .append(INDENT.repeat(indentation))
                 .append("return message");
 
@@ -403,19 +412,26 @@ public class Generator {
         return headersBuilder.toString();
     }
 
-    private static String buildBody(List<List<String>> bodyParams, int indentation) {
+    private static String buildResponseBody(List<List<String>> bodyParams, int indentation) {
         if(bodyParams.isEmpty())
             return "";
 
         return INDENT.repeat(indentation) +
-                "message.body = b\"\"" +
-                "\n" +
-                INDENT.repeat(indentation) +
+                "message.body = " +
+                formatBodyJsonParameters(bodyParams) +
+                "\n";
+    }
+
+    private static String buildRequestBody(List<List<String>> bodyParams, int indentation) {
+        if(bodyParams.isEmpty())
+            return "";
+
+        return INDENT.repeat(indentation) +
                 "message.update_body(" +
                 "\n" +
                 INDENT.repeat(indentation + 1) +
                 formatBodyJsonParameters(bodyParams) +
-                "\n" +
+                ",\n" +
                 INDENT.repeat(indentation + 1) +
                 "content_type=b'application/json'," +
                 "\n" +
@@ -507,7 +523,7 @@ public class Generator {
             count++;
         }
 
-        contentBuilder.append("}').encode(),");
+        contentBuilder.append("}').encode()");
 
         return contentBuilder.toString();
     }
