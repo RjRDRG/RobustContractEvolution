@@ -1,4 +1,4 @@
-!!com.rce.common.structures.Result
+!!com.rce.common.structures.Conversion
 methods:
 - endpoint: /pets GET
   endpointPrior: /pets GET

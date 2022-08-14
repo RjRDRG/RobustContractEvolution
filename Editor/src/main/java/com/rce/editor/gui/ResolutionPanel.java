@@ -115,8 +115,8 @@ public class ResolutionPanel extends JPanel {
         add(gp0,BorderLayout.CENTER);
     }
 
-    public Result getResult() {
-        Result result = new Result();
+    public Conversion getResult() {
+        Conversion conversion = new Conversion();
 
         for(int i=0; i<v0.getNumberOfRows(); i++) {
             Method method = new Method((String) t0.getValueAt(i,0), (String) t0.getValueAt(i,1));
@@ -133,10 +133,10 @@ public class ResolutionPanel extends JPanel {
                     method.addMessage(message);
                 }
             }
-            result.addMethod(method);
+            conversion.addMethod(method);
         }
 
-        return result;
+        return conversion;
     }
 }
 

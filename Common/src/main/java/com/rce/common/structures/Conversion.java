@@ -3,10 +3,10 @@ package com.rce.common.structures;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Result {
+public class Conversion {
     List<Method> methods;
 
-    public Result() {
+    public Conversion() {
         methods = new LinkedList<>();
     }
 

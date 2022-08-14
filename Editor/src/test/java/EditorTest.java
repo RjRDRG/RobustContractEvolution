@@ -3,7 +3,7 @@ import com.rce.common.io.ResultIO;
 import com.rce.common.structures.Message;
 import com.rce.common.structures.Method;
 import com.rce.common.structures.Parameter;
-import com.rce.common.structures.Result;
+import com.rce.common.structures.Conversion;
 import com.rce.parser.IContract;
 import com.rce.parser.OpenApiContract;
 import com.rce.common.structures.Endpoint;
@@ -20,12 +20,12 @@ class EditorTest {
 
     static String basePath = "./src/test/resources/";
 
-    Result result;
+    Conversion conversion;
     IContract contract;
 
     @BeforeEach
     void setUp() throws FileNotFoundException {
-        result = ResultIO.readFromYaml(basePath + "evolution.yml");
+        conversion = ResultIO.readFromYaml(basePath + "evolution.yml");
 
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
@@ -39,7 +39,7 @@ class EditorTest {
     @Test
     void testResult() {
         for(Endpoint endpoint : contract.getEndpoints()) {
-            Method method = result.getMethods().stream().filter(m->m.endpoint.equals(endpoint.toString())).findFirst().orElse(null);
+            Method method = conversion.getMethods().stream().filter(m->m.endpoint.equals(endpoint.toString())).findFirst().orElse(null);
             assert method != null;
 
             Message requestMessage = method.getMessages().stream().filter(m->m.type.equals("Request")).findFirst().orElse(null);

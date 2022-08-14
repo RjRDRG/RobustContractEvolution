@@ -10,20 +10,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class Generator {
-    final static String BASE_PATH = "./src/main/resources/";
+public class ProxyPyAdapterGen {
+    final static String BASE_PATH = "./src/main/resources/proxypy";
     final static String INDENT = "    ";
 
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         try {
-            Result result = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
-            String template = Files.readString(Path.of(BASE_PATH + "proxy_template.txt"));
+            Conversion conversion = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
+            String template = Files.readString(Path.of(BASE_PATH + "proxypy/proxy_template.txt"));
 
-            template = template.replace("#ENDPOINT_MESSAGE_CASES", buildEndpointCases(result,4));
-            template = template.replace("#ENDPOINT_MESSAGE_HANDLERS", buildEndpointHandlers(result,1));
+            template = template.replace("#ENDPOINT_MESSAGE_CASES", buildEndpointCases(conversion,4));
+            template = template.replace("#ENDPOINT_MESSAGE_HANDLERS", buildEndpointHandlers(conversion,1));
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "adapterProxy.py"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "proxypy/adapterProxy.py"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {
@@ -31,9 +31,9 @@ public class Generator {
         }
     }
 
-    private static String buildEndpointCases(Result result, int indentation) {
+    private static String buildEndpointCases(Conversion conversion, int indentation) {
         StringBuilder casesBuilder = new StringBuilder();
-        for (Method method : result.getMethods()) {
+        for (Method method : conversion.getMethods()) {
             Endpoint endpoint = Endpoint.fromString(method.endpointPrior);
 
             for (Message message : method.getMessages()) {
@@ -120,10 +120,10 @@ public class Generator {
         return nameBuilder.toString();
     }
 
-    private static String buildEndpointHandlers(Result result, int indentation) {
+    private static String buildEndpointHandlers(Conversion conversion, int indentation) {
         StringBuilder handlersBuilder = new StringBuilder();
 
-        for (Method method : result.getMethods()) {
+        for (Method method : conversion.getMethods()) {
             Endpoint endpoint = Endpoint.fromString(method.endpoint);
             Endpoint priorEndpoint = Endpoint.fromString(method.endpointPrior);
 

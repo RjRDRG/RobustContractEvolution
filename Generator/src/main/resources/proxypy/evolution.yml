@@ -1,4 +1,4 @@
-!!com.rce.common.structures.Conversion
+!!com.rce.common.structures.Result
 methods:
 - endpoint: /user/{id} GET
   endpointPrior: /user/service POST
