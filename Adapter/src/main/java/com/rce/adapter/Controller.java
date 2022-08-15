@@ -34,6 +34,7 @@ public class Controller {
                         @RequestBody String body) {
         try {
             JsonNode node = mapper.readTree(body);
+            node.textValue()
 
             String url = #URL;
 

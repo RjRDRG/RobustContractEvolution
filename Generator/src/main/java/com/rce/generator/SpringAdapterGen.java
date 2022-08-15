@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.*;
 
 public class SpringAdapterGen {
     final static String BASE_PATH = "./src/main/resources/spring";
@@ -60,7 +60,7 @@ public class SpringAdapterGen {
             StringBuilder pathParams = new StringBuilder();
             StringBuilder queryParams = new StringBuilder();
             StringBuilder headerParams = new StringBuilder();
-            StringBuilder jsonParams = new StringBuilder();
+            List<Parameter> jsonParams = new LinkedList<>();
 
             for (Parameter parameter: request.getParameters()) {
                 if(parameter.key.startsWith("path")) {
@@ -85,15 +85,14 @@ public class SpringAdapterGen {
                 }
 
                 if(parameter.key.startsWith("json")) {
-                    String prId = parameter.key.split("\\|")[1];
-                    bodyParams.add(List.of(prId.split("\\.")));
+                    jsonParams.add(parameter);
                 }
             }
 
             template.replace("#PATH_PARAMS", pathParams.toString());
             template.replace("#QUERY_PARAMS", queryParams.toString());
             template.replace("#HEADER_PARAMS", headerParams.toString());
-            template.replace("#BODY", jsonParams.toString());
+            template.replace("#BODY", formatBodyJsonParameters(jsonParams));
 
             template.replace("#SEND_TYPE", "APPLICATION_JSON"); //TODO
             template.replace("#RECEIVE_TYPE", "APPLICATION_JSON"); //TODO
@@ -103,6 +102,10 @@ public class SpringAdapterGen {
             procedures.append(template).append("\n");
         }
         return procedures.toString();
+    }
+
+    public static String buildResponse() {
+
     }
 
     public static String parseResolution(String resolution) {
@@ -124,7 +127,15 @@ public class SpringAdapterGen {
                     return "_headerParams.get("+priorParameterId+");";
                 }
                 case "json": {
-                    value = getValueFromBodyJson(priorParameterId);
+                    StringBuilder valueBuilder = new StringBuilder();
+                    valueBuilder.append("_body");
+                    for(String s : priorParameterId.split("\\.")) {
+                        valueBuilder
+                                .append(".get(")
+                                .append(s)
+                                .append(")");
+                    }
+                    return valueBuilder.append(".textValue();").toString();
                 }
             }
         } else {
@@ -132,19 +143,91 @@ public class SpringAdapterGen {
         }
     }
 
-    private static String getValueFromBodyJson(String parameterId) {
-        StringBuilder valueBuilder = new StringBuilder();
-        valueBuilder.append("body");
-        for(String s : parameterId.split("\\.")) {
-            valueBuilder
-                    .append("[\"")
-                    .append(s)
-                    .append("\"]");
+    private static String formatBodyJsonParameters(List<Parameter> bodyParams) {
+        class Node {
+            final String id;
+            final String valueId;
+            final Set<Node> children;
+
+            public Node(String id, String valueId, Set<Node> children) {
+                this.id = id;
+                this.valueId = valueId;
+                this.children = children;
+            }
+
+            @Override
+            public String toString() {
+                if(children.isEmpty()) {
+                    return "\"" + id + "\":\"' + json" +valueId+ " + '\"";
+                }
+                else {
+                    StringBuilder objectBuilder = new StringBuilder();
+                    objectBuilder
+                            .append("\"")
+                            .append(id)
+                            .append("\":{");
+
+                    int count = 0;
+                    for (Node n: children) {
+                        if(count!=0) {
+                            objectBuilder.append(", ");
+                        }
+                        objectBuilder.append(n.toString());
+                        count++;
+                    }
+
+                    objectBuilder.append("}");
+
+                    return objectBuilder.toString();
+                }
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Node node = (Node) o;
+                return id.equals(node.id);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(id);
+            }
         }
-        return valueBuilder.toString();
-    }
 
-    public static String buildResponse() {
+        Node root = new Node("", "", new HashSet<>());
 
+        for(List<String> p : bodyParams) {
+            Node current = root;
+            StringBuilder acum = new StringBuilder();
+            for(String s : p) {
+                acum.append("_").append(s);
+                Node newNode = new Node(s, acum.toString(), new HashSet<>());
+                if(!current.children.contains(newNode)) {
+                    current.children.add(newNode);
+                    current = newNode;
+                }
+                else {
+                    current = current.children.stream().filter(c->c.id.equals(s)).findAny().get();
+                }
+            }
+        }
+
+        StringBuilder contentBuilder = new StringBuilder();
+
+        contentBuilder.append("{");
+
+        int count=0;
+        for (Node n : root.children) {
+            if(count!=0)
+                contentBuilder.append(", ");
+            contentBuilder.append(n.toString());
+            count++;
+        }
+
+        contentBuilder.append("}");
+
+        return contentBuilder.toString();
     }
 }

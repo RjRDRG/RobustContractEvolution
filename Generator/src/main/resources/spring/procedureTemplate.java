@@ -5,9 +5,9 @@
 public ResponseEntity<String> #PROCEDURE(@PathVariable Map<String, String> _pathParams,
                                          @RequestParam Map<String,String> _queryParams,
                                          @RequestHeader Map<String, String> _headerParams,
-                                         @RequestBody String _body) {
+                                         @RequestBody String _rawBody) {
     try {
-        JsonNode node = mapper.readTree(body);
+        JsonNode _body = mapper.readTree(_rawBody);
 
         String scheme = #SCHEME;
 
@@ -26,8 +26,7 @@ public ResponseEntity<String> #PROCEDURE(@PathVariable Map<String, String> _path
         Map<String, String> headerParams = new HashMap<>();
         #HEADER_PARAMS
 
-        String body;
-        #BODY
+        String body = #BODY;
 
         MediaType sendType = MediaType.valueOf(#SEND_TYPE);
 
