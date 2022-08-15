@@ -37,7 +37,7 @@ public class Controller {
 
             String url = #URL;
 
-            HttpMethod method = #METHOD;
+            HttpMethod method = HttpMethod.valueOf(#METHOD);
 
             String path = #PATH;
 
@@ -53,9 +53,9 @@ public class Controller {
             String body;
             #BODY
 
-            MediaType sendType = #SEND_TYPE;
+            MediaType sendType = MediaType.valueOf(#SEND_TYPE);
 
-            MediaType receiveType = #RECEIVE_TYPE;
+            MediaType receiveType = MediaType.valueOf(#RECEIVE_TYPE);
 
             ResponseEntity<String> responseEntity = sendRequest(
                 url, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
