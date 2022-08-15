@@ -146,19 +146,19 @@ public class SpringAdapterGen {
     private static String formatBodyJsonParameters(List<Parameter> bodyParams) {
         class Node {
             final String id;
-            final String valueId;
+            final String value;
             final Set<Node> children;
 
-            public Node(String id, String valueId, Set<Node> children) {
+            public Node(String id, String value, Set<Node> children) {
                 this.id = id;
-                this.valueId = valueId;
+                this.value = value;
                 this.children = children;
             }
 
             @Override
             public String toString() {
                 if(children.isEmpty()) {
-                    return "\"" + id + "\":\"' + json" +valueId+ " + '\"";
+                    return "\"" + id + "\": + " + value + " + '\""; //TODO
                 }
                 else {
                     StringBuilder objectBuilder = new StringBuilder();
@@ -198,10 +198,10 @@ public class SpringAdapterGen {
 
         Node root = new Node("", "", new HashSet<>());
 
-        for(List<String> p : bodyParams) {
+        for(Parameter p : bodyParams) {
             Node current = root;
             StringBuilder acum = new StringBuilder();
-            for(String s : p) {
+            for(String s : List.of(p.key.split("\\|")[1].split("\\."))) {
                 acum.append("_").append(s);
                 Node newNode = new Node(s, acum.toString(), new HashSet<>());
                 if(!current.children.contains(newNode)) {
