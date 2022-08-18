@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+//@RestController
 public class Controller {
-
+    /*
     private ObjectMapper mapper;
 
     public Controller() {
@@ -72,7 +72,7 @@ public class Controller {
                 HttpHeaders responseHeaders = new HttpHeaders();
                 responseHeaders.set("Baeldung-Example-Header", "Value-ResponseEntityBuilderWithHttpHeaders");
 
-                return ResponseEntity.ok()
+                return ResponseEntity.status()
                         .headers(responseHeaders)
                         .body("Response with header using ResponseEntity");
             }
@@ -126,4 +126,5 @@ public class Controller {
                 .toEntity(String.class)
                 .block();
     }
+    */
 }

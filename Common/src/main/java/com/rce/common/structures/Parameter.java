@@ -1,5 +1,6 @@
 package com.rce.common.structures;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Parameter {
@@ -28,6 +29,14 @@ public class Parameter {
 
     public void setResolution(String resolution) {
         this.resolution = resolution;
+    }
+
+    public String id() {
+        return key.split("\\|")[1];
+    }
+
+    public String[] idSegments() {
+        return id().split("\\.");
     }
 
     @Override

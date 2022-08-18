@@ -1,5 +1,7 @@
 package com.rce.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rce.common.io.ResultIO;
 import com.rce.common.structures.*;
 
@@ -47,13 +49,13 @@ public class SpringAdapterGen {
 
             String template = PROCEDURE_TEMPLATE;
 
-            template.replace("#OLD_PATH", endpointPrior.path);
-            template.replace("#OLD_METHOD", endpointPrior.method.name().toLowerCase());
-            template.replace("#PROCEDURE", "procedure"+(count++));
-            template.replace("#SCHEME", "http"); //TODO
-            template.replace("#HOST", "demo"); //TODO
-            template.replace("#METHOD", endpoint.method.name().toUpperCase());
-            template.replace("#PATH", endpoint.path);
+            template = template.replace("#OLD_PATH", endpointPrior.path);
+            template = template.replace("#OLD_METHOD", endpointPrior.method.name().toLowerCase());
+            template = template.replace("#PROCEDURE", "procedure"+(count++));
+            template = template.replace("#SCHEME", "http"); //TODO
+            template = template.replace("#HOST", "demo"); //TODO
+            template = template.replace("#METHOD", endpoint.method.name().toUpperCase());
+            template = template.replace("#PATH", endpoint.path);
 
             Message request = method.getRequest();
 
@@ -65,23 +67,32 @@ public class SpringAdapterGen {
             for (Parameter parameter: request.getParameters()) {
                 if(parameter.key.startsWith("path")) {
                     pathParams.append("pathParams.put(")
+                            .append("\"")
                             .append(parameter.key.split("\\|")[1])
+                            .append("\"")
+                            .append(", ")
                             .append(parseResolution(parameter.resolution))
-                            .append(");\n");
+                            .append(");");
                 }
 
                 if(parameter.key.startsWith("query")) {
                     queryParams.append("queryParams.put(")
+                            .append("\"")
                             .append(parameter.key.split("\\|")[1])
+                            .append("\"")
+                            .append(", ")
                             .append(parseResolution(parameter.resolution))
-                            .append(");\n");
+                            .append(");");
                 }
 
                 if(parameter.key.startsWith("header")) {
                     headerParams.append("headerParams.put(")
+                            .append("\"")
                             .append(parameter.key.split("\\|")[1])
+                            .append("\"")
+                            .append(", ")
                             .append(parseResolution(parameter.resolution))
-                            .append(");\n");
+                            .append(");");
                 }
 
                 if(parameter.key.startsWith("json")) {
@@ -89,23 +100,66 @@ public class SpringAdapterGen {
                 }
             }
 
-            template.replace("#PATH_PARAMS", pathParams.toString());
-            template.replace("#QUERY_PARAMS", queryParams.toString());
-            template.replace("#HEADER_PARAMS", headerParams.toString());
-            template.replace("#BODY", formatBodyJsonParameters(jsonParams));
+            String body = formatBodyJsonParameters(jsonParams);
+            for (Parameter parameter: jsonParams) {
+                body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter.resolution) + " + \"");
+            }
 
-            template.replace("#SEND_TYPE", "APPLICATION_JSON"); //TODO
-            template.replace("#RECEIVE_TYPE", "APPLICATION_JSON"); //TODO
+            template = template.replace("#PATH_PARAMS", pathParams.toString());
+            template = template.replace("#QUERY_PARAMS", queryParams.toString());
+            template = template.replace("#HEADER_PARAMS", headerParams.toString());
 
-            template.replace("#RESPONSE", buildResponse());
+            template = template.replace("#BODY", body);
 
-            procedures.append(template).append("\n");
+            template = template.replace("#SEND_TYPE", "APPLICATION_JSON"); //TODO
+            template = template.replace("#RECEIVE_TYPE", "APPLICATION_JSON"); //TODO
+
+            template = template.replace("#RESPONSE", buildResponse(method));
+
+            procedures.append(template).append("\n\n\n");
         }
         return procedures.toString();
     }
 
-    public static String buildResponse() {
+    public static String buildResponse(Method method) {
+        StringBuilder responses = new StringBuilder();
+        for(Message response : method.getResponses()) {
+            String template = RESPONSE_TEMPLATE;
 
+            template = template.replace("#OLD_STATUS", response.typePrior);
+
+            StringBuilder headerParams = new StringBuilder();
+            List<Parameter> jsonParams = new LinkedList<>();
+
+            for (Parameter parameter: response.getParameters()) {
+                if(parameter.key.startsWith("header")) {
+                    headerParams.append("responseHeaders.set(")
+                            .append("\"")
+                            .append(parameter.key.split("\\|")[1])
+                            .append("\"")
+                            .append(", ")
+                            .append(parseResolution(parameter.resolution))
+                            .append(");");
+                }
+
+                if(parameter.key.startsWith("json")) {
+                    jsonParams.add(parameter);
+                }
+            }
+
+            String body = formatBodyJsonParameters(jsonParams);
+            for (Parameter parameter: jsonParams) {
+                body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter.resolution) + " + \"");
+            }
+
+            template = template.replace("#HEADER_PARAMS", headerParams.toString());
+            template = template.replace("#BODY", body);
+
+            template = template.replace("#STATUS", response.type);
+
+            responses.append(template).append("\n\n");
+        }
+        return responses.toString();
     }
 
     public static String parseResolution(String resolution) {
@@ -118,13 +172,13 @@ public class SpringAdapterGen {
 
             switch (linkType) {
                 case "path": {
-                    return "_pathParams.get("+priorParameterId+");";
+                    return "_pathParams.get("+priorParameterId+")";
                 }
                 case "query": {
-                    return "_queryParams.get("+priorParameterId+");";
+                    return "_queryParams.get("+priorParameterId+")";
                 }
                 case "header": {
-                    return "_headerParams.get("+priorParameterId+");";
+                    return "_headerParams.get("+priorParameterId+")";
                 }
                 case "json": {
                     StringBuilder valueBuilder = new StringBuilder();
@@ -135,99 +189,37 @@ public class SpringAdapterGen {
                                 .append(s)
                                 .append(")");
                     }
-                    return valueBuilder.append(".textValue();").toString();
+                    return valueBuilder.append(".textValue()").toString();
                 }
             }
-        } else {
-            return  "\"" + value + "\"";
         }
+
+        return  "\"" + value + "\"";
     }
 
     private static String formatBodyJsonParameters(List<Parameter> bodyParams) {
-        class Node {
-            final String id;
-            final String value;
-            final Set<Node> children;
 
-            public Node(String id, String value, Set<Node> children) {
-                this.id = id;
-                this.value = value;
-                this.children = children;
-            }
+        ObjectNode root = new ObjectMapper().createObjectNode();
 
-            @Override
-            public String toString() {
-                if(children.isEmpty()) {
-                    return "\"" + id + "\": + " + value + " + '\""; //TODO
-                }
-                else {
-                    StringBuilder objectBuilder = new StringBuilder();
-                    objectBuilder
-                            .append("\"")
-                            .append(id)
-                            .append("\":{");
-
-                    int count = 0;
-                    for (Node n: children) {
-                        if(count!=0) {
-                            objectBuilder.append(", ");
-                        }
-                        objectBuilder.append(n.toString());
-                        count++;
+        for(Parameter parameter : bodyParams) {
+            ObjectNode current = root;
+            String[] idSegments = parameter.idSegments();
+            for(int i =0; i<idSegments.length; i++) {
+                String s = idSegments[i];
+                ObjectNode n = (ObjectNode) current.get(s);
+                if(n==null) {
+                    if(i == idSegments.length-1) {
+                        current.put(s, "#"+parameter.id());
                     }
-
-                    objectBuilder.append("}");
-
-                    return objectBuilder.toString();
-                }
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-                Node node = (Node) o;
-                return id.equals(node.id);
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(id);
-            }
-        }
-
-        Node root = new Node("", "", new HashSet<>());
-
-        for(Parameter p : bodyParams) {
-            Node current = root;
-            StringBuilder acum = new StringBuilder();
-            for(String s : List.of(p.key.split("\\|")[1].split("\\."))) {
-                acum.append("_").append(s);
-                Node newNode = new Node(s, acum.toString(), new HashSet<>());
-                if(!current.children.contains(newNode)) {
-                    current.children.add(newNode);
-                    current = newNode;
-                }
-                else {
-                    current = current.children.stream().filter(c->c.id.equals(s)).findAny().get();
+                    else {
+                        n = current.objectNode();
+                        current.set(s, n);
+                        current = n;
+                    }
                 }
             }
         }
 
-        StringBuilder contentBuilder = new StringBuilder();
-
-        contentBuilder.append("{");
-
-        int count=0;
-        for (Node n : root.children) {
-            if(count!=0)
-                contentBuilder.append(", ");
-            contentBuilder.append(n.toString());
-            count++;
-        }
-
-        contentBuilder.append("}");
-
-        return contentBuilder.toString();
+        return "\""+root.toString()+"\"";
     }
 }
