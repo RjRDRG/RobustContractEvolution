@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class SpringAdapterGen {
-    final static String BASE_PATH = "./src/main/resources/spring";
+    final static String BASE_PATH = "./src/main/resources/spring/";
 
     static String CONTROLLER_TEMPLATE;
     static String PROCEDURE_TEMPLATE;
@@ -22,17 +22,17 @@ public class SpringAdapterGen {
 
     public static void main(String[] args) {
         try {
-            CONTROLLER_TEMPLATE = Files.readString(Path.of(BASE_PATH + "/controllerTemplate.java"));
-            PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "/procedureTemplate.java"));
-            RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "/responseTemplate.java"));
+            CONTROLLER_TEMPLATE = Files.readString(Path.of(BASE_PATH + "controllerTemplate.java"));
+            PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "procedureTemplate.java"));
+            RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "responseTemplate.java"));
 
             CONVERSION = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
 
             String template = CONTROLLER_TEMPLATE;
 
-            template = template.replace("#PROCEDURE", buildProcedures());
+            template = template.replace("#PROCEDURE#", buildProcedures());
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "proxypy/adapterProxy.py"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "/Controller.java"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {
@@ -45,17 +45,17 @@ public class SpringAdapterGen {
         int count = 0;
         for (Method method : CONVERSION.getMethods()) {
             Endpoint endpointPrior = Endpoint.fromString(method.endpointPrior);
-            Endpoint endpoint = Endpoint.fromString(method.endpointPrior);
+            Endpoint endpoint = Endpoint.fromString(method.endpoint);
 
             String template = PROCEDURE_TEMPLATE;
 
-            template = template.replace("#OLD_PATH", endpointPrior.path);
-            template = template.replace("#OLD_METHOD", endpointPrior.method.name().toLowerCase());
-            template = template.replace("#PROCEDURE", "procedure"+(count++));
-            template = template.replace("#SCHEME", "http"); //TODO
-            template = template.replace("#HOST", "demo"); //TODO
-            template = template.replace("#METHOD", endpoint.method.name().toUpperCase());
-            template = template.replace("#PATH", endpoint.path);
+            template = template.replace("#OLD_PATH#", "\"" + endpointPrior.path + "\"");
+            template = template.replace("#OLD_METHOD#", "RequestMethod." + endpointPrior.method.name().toUpperCase());
+            template = template.replace("#PROCEDURE#", "procedure"+(count++));
+            template = template.replace("#SCHEME#", "\"http\""); //TODO
+            template = template.replace("#HOST#", "\"demo\""); //TODO
+            template = template.replace("#METHOD#", "\"" + endpoint.method.name().toUpperCase() + "\"");
+            template = template.replace("#PATH#", "\"" + endpoint.path + "\"");
 
             Message request = method.getRequest();
 
@@ -105,16 +105,16 @@ public class SpringAdapterGen {
                 body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter.resolution) + " + \"");
             }
 
-            template = template.replace("#PATH_PARAMS", pathParams.toString());
-            template = template.replace("#QUERY_PARAMS", queryParams.toString());
-            template = template.replace("#HEADER_PARAMS", headerParams.toString());
+            template = template.replace("#PATH_PARAMS#", pathParams.toString());
+            template = template.replace("#QUERY_PARAMS#", queryParams.toString());
+            template = template.replace("#HEADER_PARAMS#", headerParams.toString());
 
-            template = template.replace("#BODY", body);
+            template = template.replace("#BODY#", body);
 
-            template = template.replace("#SEND_TYPE", "APPLICATION_JSON"); //TODO
-            template = template.replace("#RECEIVE_TYPE", "APPLICATION_JSON"); //TODO
+            template = template.replace("#SEND_TYPE#", "\"APPLICATION_JSON\""); //TODO
+            template = template.replace("#RECEIVE_TYPE#", "\"APPLICATION_JSON\""); //TODO
 
-            template = template.replace("#RESPONSE", buildResponse(method));
+            template = template.replace("#RESPONSE#", buildResponse(method));
 
             procedures.append(template).append("\n\n\n");
         }
@@ -126,7 +126,7 @@ public class SpringAdapterGen {
         for(Message response : method.getResponses()) {
             String template = RESPONSE_TEMPLATE;
 
-            template = template.replace("#OLD_STATUS", response.typePrior);
+            template = template.replace("#OLD_STATUS#", response.typePrior);
 
             StringBuilder headerParams = new StringBuilder();
             List<Parameter> jsonParams = new LinkedList<>();
@@ -152,10 +152,10 @@ public class SpringAdapterGen {
                 body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter.resolution) + " + \"");
             }
 
-            template = template.replace("#HEADER_PARAMS", headerParams.toString());
-            template = template.replace("#BODY", body);
+            template = template.replace("#RESPONSE_HEADERS#", headerParams.toString());
+            template = template.replace("#RESPONSE_BODY#", body);
 
-            template = template.replace("#STATUS", response.type);
+            template = template.replace("#STATUS#", response.type);
 
             responses.append(template).append("\n\n");
         }
@@ -172,22 +172,22 @@ public class SpringAdapterGen {
 
             switch (linkType) {
                 case "path": {
-                    return "_pathParams.get("+priorParameterId+")";
+                    return "_pathParams.get(\""+priorParameterId+"\")";
                 }
                 case "query": {
-                    return "_queryParams.get("+priorParameterId+")";
+                    return "_queryParams.get(\""+priorParameterId+"\")";
                 }
                 case "header": {
-                    return "_headerParams.get("+priorParameterId+")";
+                    return "_headerParams.get(\""+priorParameterId+"\")";
                 }
                 case "json": {
                     StringBuilder valueBuilder = new StringBuilder();
                     valueBuilder.append("_body");
                     for(String s : priorParameterId.split("\\.")) {
                         valueBuilder
-                                .append(".get(")
+                                .append(".get(\"")
                                 .append(s)
-                                .append(")");
+                                .append("\")");
                     }
                     return valueBuilder.append(".textValue()").toString();
                 }
@@ -220,6 +220,9 @@ public class SpringAdapterGen {
             }
         }
 
-        return "\""+root.toString()+"\"";
+        String b = root.toString();
+        b = b.replace("\"", "\\\"");
+
+        return "\""+b+"\"";
     }
 }

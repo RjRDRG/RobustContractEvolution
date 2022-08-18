@@ -1,8 +1,8 @@
-if(status == #OLD_STATUS) {
+if(status.value() == #OLD_STATUS#) {
     HttpHeaders responseHeaders = new HttpHeaders();
-    #HEADERS
+    #RESPONSE_HEADERS#
 
-    String responseBody = #BODY
+    String responseBody = #RESPONSE_BODY#;
 
-    return ResponseEntity.status(#STATUS).headers(headers).body(body);
+    return ResponseEntity.status(#STATUS#).headers(responseHeaders).body(responseBody);
 }

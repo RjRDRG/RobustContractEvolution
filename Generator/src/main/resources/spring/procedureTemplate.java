@@ -1,48 +1,50 @@
 @RequestMapping(
-        value = #OLD_PATH,
-        method = #OLD_METHOD
+        value = #OLD_PATH#,
+        method = #OLD_METHOD#
 )
-public ResponseEntity<String> #PROCEDURE(@PathVariable Map<String, String> _pathParams,
+public ResponseEntity<String> #PROCEDURE#(@PathVariable Map<String, String> _pathParams,
                                          @RequestParam Map<String,String> _queryParams,
                                          @RequestHeader Map<String, String> _headerParams,
                                          @RequestBody String _rawBody) {
     try {
         JsonNode _body = mapper.readTree(_rawBody);
 
-        String scheme = #SCHEME;
+        String scheme = #SCHEME#;
 
-        String host = #HOST;
+        String host = #HOST#;
 
-        HttpMethod method = HttpMethod.valueOf(#METHOD);
+        HttpMethod method = HttpMethod.valueOf(#METHOD#);
 
-        String path = #PATH;
+        String path = #PATH#;
 
         Map<String, String> pathParams = new HashMap<>();
-        #PATH_PARAMS
+        #PATH_PARAMS#
 
         Map<String,String> queryParams = new HashMap<>();
-        #QUERY_PARAMS
+        #QUERY_PARAMS#
 
         Map<String, String> headerParams = new HashMap<>();
-        #HEADER_PARAMS
+        #HEADER_PARAMS#
 
-        String body = #BODY;
+        String body = #BODY#;
 
-        MediaType sendType = MediaType.valueOf(#SEND_TYPE);
+        MediaType sendType = MediaType.valueOf(#SEND_TYPE#);
 
-        MediaType receiveType = MediaType.valueOf(#RECEIVE_TYPE);
+        MediaType receiveType = MediaType.valueOf(#RECEIVE_TYPE#);
 
         ResponseEntity<String> responseEntity = Utils.forwardRequest(
                 scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
         );
 
         HttpStatus status = responseEntity.getStatusCode();
-        headerParams = responseEntity.getHeaders();
-        body = responseEntity.getBody();
+        _headerParams = responseEntity.getHeaders().toSingleValueMap();
+        _body = mapper.readTree(responseEntity.getBody());
 
-        #RESPONSE
+        #RESPONSE#
 
     } catch (Exception e) {
-        throw new RuntimeException(e);
+        e.printStackTrace();
+        return ResponseEntity.internalServerError().body(e.toString());
     }
+    return ResponseEntity.internalServerError().body("UNMAPPED RESPONSE");
 }

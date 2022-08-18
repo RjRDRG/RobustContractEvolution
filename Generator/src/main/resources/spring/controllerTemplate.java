@@ -1,4 +1,4 @@
-package com.rce.demo;
+package com.rce.adapter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,5 +24,5 @@ public class Controller {
         mapper = new ObjectMapper();
     }
 
-    #PROCEDURE
+    #PROCEDURE#
 }
