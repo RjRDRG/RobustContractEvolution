@@ -1,7 +1,7 @@
 package com.rce.common.structures;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Parameter {
     public String key;
@@ -32,11 +32,35 @@ public class Parameter {
     }
 
     public String id() {
-        return key.split("\\|")[1];
+        String[] sa = key.split("\\|");
+        if(sa.length>1)
+            return sa[1];
+        else
+            return null;
     }
 
     public String[] idSegments() {
-        return id().split("\\.");
+        return Optional.ofNullable(id()).map(a -> a.split("\\.")).orElse(new String[0]);
+    }
+
+    public String resolutionType() {
+        return resolution.split("=")[0];
+    }
+
+    public String resolutionLinkType() {
+        return resolution.split("=")[1].split("\\|")[0];
+    }
+
+    public String resolutionLinkId() {
+        String[] s = resolution.split("=")[1].split("\\|");
+        if(s.length>1)
+            return s[1];
+        else
+            return null;
+    }
+
+    public String resolutionValue() {
+        return resolution.split("=")[1];
     }
 
     @Override

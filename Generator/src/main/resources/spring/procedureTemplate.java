@@ -32,7 +32,7 @@ public ResponseEntity<String> #PROCEDURE#(@PathVariable Map<String, String> _pat
 
         MediaType receiveType = MediaType.valueOf(#RECEIVE_TYPE#);
 
-        ResponseEntity<String> responseEntity = Utils.forwardRequest(
+        ResponseEntity<String> responseEntity = forwardRequest(
                 scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
         );
 
@@ -41,10 +41,8 @@ public ResponseEntity<String> #PROCEDURE#(@PathVariable Map<String, String> _pat
         _body = mapper.readTree(responseEntity.getBody());
 
         #RESPONSE#
-
     } catch (Exception e) {
         e.printStackTrace();
         return ResponseEntity.internalServerError().body(e.toString());
     }
-    return ResponseEntity.internalServerError().body("UNMAPPED RESPONSE");
 }

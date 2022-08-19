@@ -1,5 +1,6 @@
 package com.rce.adapter;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,18 @@ public class Utils {
                     )
                     .toEntity(String.class)
                     .block();
+        }
+    }
+
+    public static ResponseEntity<String> forwardResponse(int status, HttpHeaders headers, String body) {
+        if(body!=null && !headers.isEmpty()) {
+            return ResponseEntity.status(status).headers(headers).body(body);
+        } else if(body != null) {
+            return ResponseEntity.status(status).body(body);
+        } else if(!headers.isEmpty()) {
+            return ResponseEntity.status(status).headers(headers).build();
+        } else {
+            return ResponseEntity.status(status).build();
         }
     }
 
