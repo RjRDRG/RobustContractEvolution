@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Adapter/adapter.dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/proxypy/proxy.dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/io/ResultIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/io/ResultIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Conversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/ContractEvolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Method.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Parameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Property.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/Editor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/Editor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EditorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EditorFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EndpointPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EndpointPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/ResolutionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/ResolutionPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Editor/src/test/java/EditorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/test/java/EditorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/ProxyPyAdapterGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/ProxyPyAdapterGen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/SpringAdapterGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/SpringAdapterGen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/controllerTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/controllerTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Verifier/src/main/java/com/rce/verifier/Verifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/Verifier/src/main/java/com/rce/verifier/Verifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/adapterProxy.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +45,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/Generator/src/main/resources/spring",
+    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/Generator/src/main/resources/proxypy",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -68,11 +54,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Generator/src/main/resources/spring" />
       <recent name="$PROJECT_DIR$/Generator/src/main/resources/proxypy" />
+      <recent name="$PROJECT_DIR$/Adapter" />
+      <recent name="$PROJECT_DIR$/Generator/src/main/resources/spring" />
       <recent name="$PROJECT_DIR$/demo" />
       <recent name="$PROJECT_DIR$/Generator/src/main/resources" />
-      <recent name="$PROJECT_DIR$/Parser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Generator/src/main/resources/proxypy" />
@@ -84,13 +70,13 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.com.rce.generator.SpringAdapterGen">
-    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.rce.demo.DemoApplication" />
-      <module name="demo" />
+  <component name="RunManager" selected="Application.AdapterApplication">
+    <configuration name="AdapterApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rce.adapter.AdapterApplication" />
+      <module name="Adapter" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rce.demo.*" />
+          <option name="PATTERN" value="com.rce.adapter.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -152,20 +138,20 @@
       <item itemvalue="Application.Editor" />
       <item itemvalue="Application.PrepareOpenApiContractTest" />
       <item itemvalue="Application.Verifier" />
+      <item itemvalue="Application.AdapterApplication" />
       <item itemvalue="Application.com.rce.generator.SpringAdapterGen" />
       <item itemvalue="Application.com.rce.generator.ProxyPyAdapterGen" />
-      <item itemvalue="Application.DemoApplication" />
       <item itemvalue="Docker.demo: Compose Deployment" />
       <item itemvalue="JUnit.OpenApiContractTest" />
       <item itemvalue="JUnit.spring in Generator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.AdapterApplication" />
         <item itemvalue="Application.com.rce.generator.SpringAdapterGen" />
         <item itemvalue="JUnit.spring in Generator" />
         <item itemvalue="Application.com.rce.generator.ProxyPyAdapterGen" />
         <item itemvalue="Docker.demo: Compose Deployment" />
-        <item itemvalue="Application.DemoApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -332,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660938150795</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="wip">
+      <created>1661101116895</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1661101116895</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
