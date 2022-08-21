@@ -17,7 +17,7 @@ public class Verifier {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Conversion conversion = ResultIO.readFromYaml(BasePath + "evolution.yml");
+        ContractEvolution evolution = ResultIO.readFromYaml(BasePath + "evolution.yml");
 
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
@@ -27,7 +27,7 @@ public class Verifier {
         IContract oldContract = new OpenApiContract(new OpenAPIParser().readLocation(BasePath + "old.yml", null, parseOptions).getOpenAPI());
 
         for(Endpoint endpoint : newContract.getEndpoints()) {
-            List<Method> method = conversion.getMethods().stream().filter(m->m.endpoint.equals(endpoint.toString())).collect(Collectors.toList());
+            List<Method> method = evolution.getMethods().stream().filter(m->m.endpoint.equals(endpoint.toString())).collect(Collectors.toList());
             assert method.size() == 1;
 
             List<Message> requestMessage = method.get(0).getMessages().stream().filter(m->m.type.equals("Request")).collect(Collectors.toList());

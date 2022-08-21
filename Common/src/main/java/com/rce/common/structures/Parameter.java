@@ -4,15 +4,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Parameter {
+    public enum Type {String, Number, Boolean, Object, Array}
+
     public String key;
     public String resolution;
+    public Type type;
 
     public Parameter() {
     }
 
-    public Parameter(String key, String resolution) {
+    public Parameter(String key, String resolution, Type type) {
         this.key = key;
         this.resolution = resolution;
+        this.type = type;
     }
 
     public String getKey() {
@@ -29,6 +33,14 @@ public class Parameter {
 
     public void setResolution(String resolution) {
         this.resolution = resolution;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public String id() {

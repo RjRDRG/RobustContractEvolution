@@ -17,11 +17,11 @@ public class ProxyPyAdapterGen {
 
     public static void main1(String[] args) {
         try {
-            Conversion conversion = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
+            ContractEvolution evolution = ResultIO.readFromYaml(BASE_PATH + "evolution.yml");
             String template = Files.readString(Path.of(BASE_PATH + "proxypy/proxy_template.txt"));
 
-            template = template.replace("#ENDPOINT_MESSAGE_CASES", buildEndpointCases(conversion,4));
-            template = template.replace("#ENDPOINT_MESSAGE_HANDLERS", buildEndpointHandlers(conversion,1));
+            template = template.replace("#ENDPOINT_MESSAGE_CASES", buildEndpointCases(evolution,4));
+            template = template.replace("#ENDPOINT_MESSAGE_HANDLERS", buildEndpointHandlers(evolution,1));
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "proxypy/adapterProxy.py"));
             writer.write(template);
@@ -31,9 +31,9 @@ public class ProxyPyAdapterGen {
         }
     }
 
-    private static String buildEndpointCases(Conversion conversion, int indentation) {
+    private static String buildEndpointCases(ContractEvolution evolution, int indentation) {
         StringBuilder casesBuilder = new StringBuilder();
-        for (Method method : conversion.getMethods()) {
+        for (Method method : evolution.getMethods()) {
             Endpoint endpoint = Endpoint.fromString(method.endpointPrior);
 
             for (Message message : method.getMessages()) {
@@ -120,10 +120,10 @@ public class ProxyPyAdapterGen {
         return nameBuilder.toString();
     }
 
-    private static String buildEndpointHandlers(Conversion conversion, int indentation) {
+    private static String buildEndpointHandlers(ContractEvolution evolution, int indentation) {
         StringBuilder handlersBuilder = new StringBuilder();
 
-        for (Method method : conversion.getMethods()) {
+        for (Method method : evolution.getMethods()) {
             Endpoint endpoint = Endpoint.fromString(method.endpoint);
             Endpoint priorEndpoint = Endpoint.fromString(method.endpointPrior);
 

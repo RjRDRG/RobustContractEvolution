@@ -1,5 +1,6 @@
 package com.rce.editor.gui;
 
+import com.rce.common.structures.ContractEvolution;
 import com.rce.editor.gui.utils.ButtonColumn;
 import com.rce.editor.gui.utils.JGridBagPanel;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class EndpointPanel extends JPanel {
 
+    final ContractEvolution evolution;
     final JLabel la0;               final JLabel la1;
     final JList<String> ls0;       final JList<String> ls1;
     final JButton bt0;
@@ -30,8 +32,9 @@ public class EndpointPanel extends JPanel {
     public EndpointPanel(
             String title0, final Map<String,Set<String>> elements0,
             String title1, final Map<String,Set<String>> elements1,
-            final Map<String,Set<String>> pairs
-    ) {
+            final Map<String,Set<String>> pairs,
+            ContractEvolution evolution) {
+        this.evolution = evolution;
         setLayout(new BorderLayout());
         JGridBagPanel gp0 = new JGridBagPanel();
         add(gp0,BorderLayout.CENTER);
@@ -185,7 +188,7 @@ public class EndpointPanel extends JPanel {
     }
 
     public ResolutionPanel getNextPanel() {
-        return new ResolutionPanel(t0.getValues(), t0.getColumnNames());
+        return new ResolutionPanel(evolution, t0.getValues(), t0.getColumnNames());
     }
 }
 

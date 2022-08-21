@@ -18,7 +18,7 @@ public class SpringAdapterGen {
     static String CONTROLLER_TEMPLATE;
     static String PROCEDURE_TEMPLATE;
     static String RESPONSE_TEMPLATE;
-    static Conversion CONVERSION;
+    static ContractEvolution Evolution;
 
     public static void main(String[] args) {
         try {
@@ -26,7 +26,7 @@ public class SpringAdapterGen {
             PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "procedureTemplate.java"));
             RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "responseTemplate.java"));
 
-            CONVERSION = ResultIO.readFromYaml(BASE_PATH + "evolution1.yml");
+            Evolution = ResultIO.readFromYaml(BASE_PATH + "evolution1.yml");
 
             String template = CONTROLLER_TEMPLATE;
 
@@ -40,10 +40,12 @@ public class SpringAdapterGen {
         }
     }
 
+
+
     public static String buildProcedures() {
         StringBuilder procedures = new StringBuilder();
         int count = 0;
-        for (Method method : CONVERSION.getMethods()) {
+        for (Method method : Evolution.getMethods()) {
             Endpoint endpointPrior = Endpoint.fromString(method.endpointPrior);
             Endpoint endpoint = Endpoint.fromString(method.endpoint);
 
@@ -101,10 +103,6 @@ public class SpringAdapterGen {
             }
 
             String body = formatBodyJsonParameters(jsonParams);
-            if(body != null)
-                for (Parameter parameter: jsonParams) {
-                    body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter) + " + \"");
-                }
 
             template = template.replace("#PATH_PARAMS#", pathParams.toString());
             template = template.replace("#QUERY_PARAMS#", queryParams.toString());
@@ -122,12 +120,14 @@ public class SpringAdapterGen {
         return procedures.toString();
     }
 
+
+
     public static String buildResponse(Method method) {
         StringBuilder responses = new StringBuilder();
         String defaultCase = "return ResponseEntity.internalServerError().body(\"UNMAPPED RESPONSE\");";
         for(Message response : method.getResponses()) {
             String template;
-            if(response.typePrior.equals("default")) {
+            if(response.typePrior.equalsIgnoreCase("default")) {
                 template = RESPONSE_TEMPLATE;
                 template = template.replace("#STATUS#", "status.value()");
             } else {
@@ -157,15 +157,11 @@ public class SpringAdapterGen {
             }
 
             String body = formatBodyJsonParameters(jsonParams);
-            if(body != null)
-                for (Parameter parameter: jsonParams) {
-                    body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter) + " + \"");
-                }
 
             template = template.replace("#RESPONSE_HEADERS#", headerParams.toString());
             template = template.replace("#RESPONSE_BODY#", String.valueOf(body));
 
-            if(response.typePrior.equals("default"))
+            if(response.typePrior.equalsIgnoreCase("default"))
                 defaultCase = template;
             else
                 responses.append(template).append("\n");
@@ -177,7 +173,7 @@ public class SpringAdapterGen {
     public static String parseResolution(Parameter parameter) {
         String resolutionType = parameter.resolutionType();
 
-        if(resolutionType.equals("link")) {
+        if(resolutionType.equalsIgnoreCase("link")) {
             String linkType = parameter.resolutionLinkType();
             String priorParameterId = parameter.resolutionLinkId();
 
@@ -201,21 +197,47 @@ public class SpringAdapterGen {
                                     .append(s)
                                     .append("\")");
                         }
-                    return valueBuilder.append(".textValue()").toString();
+                    if(parameter.type.equals(Parameter.Type.Object))
+                        return valueBuilder.append(".toString()").toString();
+                    else
+                        return  valueBuilder.append(".textValue()").toString();
                 }
             }
         }
 
-        return  "\"" + parameter.resolutionValue() + "\"";
+        switch (parameter.type) {
+            case String:
+                return  "\"" + parameter.resolutionValue() + "\"";
+            case Number:
+            case Object:
+            case Array:
+            case Boolean:
+            default:
+                return parameter.resolutionValue();
+        }
     }
 
-    private static String formatBodyJsonParameters(List<Parameter> bodyParams) {
+    private static String formatBodyJsonParameters(List<Parameter> parameters) {
 
-        if(bodyParams.isEmpty()) return null;
+        if(parameters.isEmpty())
+            return null;
+
+        if(parameters.size() == 1 && parameters.get(0).id() == null) { //Handle json primitive types
+            Parameter parameter = parameters.get(0);
+            switch (parameter.type) {
+                case String:
+                    return "\"\\\"\" +" + parseResolution(parameter) + "+ \"\\\"\"";
+                case Number:
+                case Boolean:
+                case Array:
+                case Object:
+                    return parseResolution(parameter);
+            }
+        }
 
         ObjectNode root = new ObjectMapper().createObjectNode();
 
-        for(Parameter parameter : bodyParams) {
+        for(Parameter parameter : parameters) {
             ObjectNode current = root;
             String[] idSegments = parameter.idSegments();
             for(int i=0; i<idSegments.length; i++) {
@@ -234,9 +256,25 @@ public class SpringAdapterGen {
             }
         }
 
-        String b = root.toString();
-        b = b.replace("\"", "\\\"");
+        String body = root.toString();
+        body = body.replace("\"", "\\\"");
 
-        return "\""+b+"\"";
+        body = "\""+body+"\"";
+
+        for (Parameter parameter: parameters) {
+            switch (parameter.type) {
+                case String:
+                    body = body.replace("#"+parameter.id(), "\" + " + parseResolution(parameter) + " + \"");
+                    break;
+                case Number:
+                case Boolean:
+                case Array:
+                case Object:
+                    body = body.replace("\\\"#"+parameter.id()+"\\\"", "\" + " + parseResolution(parameter) + " + \"");
+                    break;
+            }
+        }
+
+        return body;
     }
 }

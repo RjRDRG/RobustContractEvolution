@@ -13,7 +13,7 @@ import static com.rce.adapter.Utils.forwardResponse;
 @RestController
 public class Controller {
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     public Controller() {
         mapper = new ObjectMapper();

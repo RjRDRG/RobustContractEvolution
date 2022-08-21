@@ -13,7 +13,7 @@ import static com.rce.adapter.Utils.forwardResponse;
 @RestController
 public class Controller {
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     public Controller() {
         mapper = new ObjectMapper();
@@ -64,12 +64,12 @@ public class Controller {
             if(status.value() == 200) {
                 HttpHeaders responseHeaders = new HttpHeaders();
 
-                String responseBody = "{}";
+                String responseBody = _body.textValue();
                 return forwardResponse(200, responseHeaders, responseBody);
             };
             HttpHeaders responseHeaders = new HttpHeaders();
 
-            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":\"" + _body.get("code").textValue() + "\"}";
+            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":" + _body.get("code").textValue() + "}";
             return forwardResponse(status.value(), responseHeaders, responseBody);
 
         } catch (Exception e) {
@@ -106,9 +106,9 @@ public class Controller {
 
 
             Map<String, String> headerParams = new HashMap<>();
-            headerParams.put("name", _headerParams.get("name"));
 
-            String body = "{\"specie\":{\"class\":{\"genus\":\"" + "c0c0" + "\",\"family\":\"" + _body.get("specie").get("class").get("family").textValue() + "\",\"species\":\"" + _body.get("specie").get("class").get("species").textValue() + "\",\"order\":\"" + _body.get("specie").get("class").get("order").textValue() + "\",\"phylum\":\"" + _body.get("specie").get("class").get("phylum").textValue() + "\",\"kingdom\":\"" + _body.get("specie").get("class").get("kingdom").textValue() + "\"},\"name\":\"" + _body.get("specie").get("name").textValue() + "\",\"tag\":\"" + _body.get("specie").get("tag").textValue() + "\"},\"tag\":\"" + _body.get("tag").textValue() + "\"}";
+
+            String body = "{\"specie\":{\"name\":\"" + _body.get("specie").get("name").textValue() + "\",\"class\":{\"kingdom\":\"" + _body.get("specie").get("class").get("kingdom").textValue() + "\",\"phylum\":\"" + _body.get("specie").get("class").get("phylum").textValue() + "\",\"genus\":\"" + _body.get("specie").get("class").get("genus").textValue() + "\",\"family\":\"" + _body.get("specie").get("class").get("family").textValue() + "\",\"order\":\"" + _body.get("specie").get("class").get("order").textValue() + "\",\"species\":\"" + _body.get("specie").get("class").get("species").textValue() + "\"},\"tag\":\"" + _body.get("specie").get("tag").textValue() + "\"},\"name\":\"" + _body.get("name").textValue() + "\",\"tag\":\"" + _body.get("tag").textValue() + "\"}";
 
             MediaType sendType = MediaType.valueOf("APPLICATION_JSON");
 
@@ -125,12 +125,12 @@ public class Controller {
             if(status.value() == 200) {
                 HttpHeaders responseHeaders = new HttpHeaders();
 
-                String responseBody = "{\"id\":\"" + _body.get("id").textValue() + "\"}";
+                String responseBody = "{\"id\":" + _body.get("id").textValue() + "}";
                 return forwardResponse(200, responseHeaders, responseBody);
             };
             HttpHeaders responseHeaders = new HttpHeaders();
 
-            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":\"" + _body.get("code").textValue() + "\"}";
+            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":" + _body.get("code").textValue() + "}";
             return forwardResponse(status.value(), responseHeaders, responseBody);
 
         } catch (Exception e) {
@@ -191,7 +191,7 @@ public class Controller {
             };
             HttpHeaders responseHeaders = new HttpHeaders();
 
-            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":\"" + _body.get("code").textValue() + "\"}";
+            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":" + _body.get("code").textValue() + "}";
             return forwardResponse(status.value(), responseHeaders, responseBody);
 
         } catch (Exception e) {
@@ -247,12 +247,12 @@ public class Controller {
             if(status.value() == 200) {
                 HttpHeaders responseHeaders = new HttpHeaders();
 
-                String responseBody = "{\"id\":\"" + _body.get("id").textValue() + "\"}";
+                String responseBody = "{\"id\":" + _body.get("id").textValue() + "}";
                 return forwardResponse(200, responseHeaders, responseBody);
             };
             HttpHeaders responseHeaders = new HttpHeaders();
 
-            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":\"" + _body.get("code").textValue() + "\"}";
+            String responseBody = "{\"message\":\"" + _body.get("message").textValue() + "\",\"code\":" + _body.get("code").textValue() + "}";
             return forwardResponse(status.value(), responseHeaders, responseBody);
 
         } catch (Exception e) {

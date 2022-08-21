@@ -23,6 +23,8 @@ import java.util.*;
 
 public class ResolutionPanel extends JPanel {
 
+    final ContractEvolution evolution;
+
     final JGridBagPanel gp0;
 
     final JLabel l0;
@@ -33,7 +35,8 @@ public class ResolutionPanel extends JPanel {
     public final JButton back;
     public final JButton submit;
 
-    public ResolutionPanel(String[][] messagePairs, String[] messagesHeader) {
+    public ResolutionPanel(ContractEvolution evolution, String[][] messagePairs, String[] messagesHeader) {
+        this.evolution = evolution;
         setLayout(new BorderLayout());
         gp0 = new JGridBagPanel();
 
@@ -115,9 +118,7 @@ public class ResolutionPanel extends JPanel {
         add(gp0,BorderLayout.CENTER);
     }
 
-    public Conversion getResult() {
-        Conversion conversion = new Conversion();
-
+    public ContractEvolution getResult() {
         for(int i=0; i<v0.getNumberOfRows(); i++) {
             Method method = new Method((String) t0.getValueAt(i,0), (String) t0.getValueAt(i,1));
             for (int j=0; j<v0.getNumberOfColumns(); j++) {
@@ -126,17 +127,16 @@ public class ResolutionPanel extends JPanel {
                     List<Parameter> parameters = new ArrayList<>();
                     for (Object[] row : messagePanel.t2.getValues()) {
                         parameters.add(new Parameter(
-                                ((Property)row[0]).key.toString(),((Resolution)row[1]).resolution
-                        ));
+                                ((Property)row[0]).key.toString(), ((Resolution)row[1]).resolution, ((Property)row[0]).type()));
                     }
                     Message message = new Message(t0.getColumnName(j+2).replace("Response : ", ""), (String) t0.getValueAt(i,j+2), parameters);
                     method.addMessage(message);
                 }
             }
-            conversion.addMethod(method);
+            evolution.addMethod(method);
         }
 
-        return conversion;
+        return evolution;
     }
 }
 

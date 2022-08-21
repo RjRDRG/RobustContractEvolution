@@ -52,4 +52,21 @@ public class Property {
     public boolean isCompatible(Property property) {
         return Objects.equals(primitive,property.primitive) && Objects.equals(format,property.format);
     }
+
+    public Parameter.Type type() {
+        if(key.location.equals(PropertyKey.Location.JSON)) {
+            if(array)
+                return Parameter.Type.Array;
+            if(primitive.equals("object"))
+                return Parameter.Type.Object;
+            if(primitive.matches("integer|number"))
+                return Parameter.Type.Number;
+            if(primitive.equals("string"))
+                return Parameter.Type.String;
+            if (primitive.equals("boolean"))
+                return Parameter.Type.Boolean;
+        }
+
+        return Parameter.Type.String;
+    }
 }

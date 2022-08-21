@@ -1,5 +1,6 @@
 package com.rce.editor.gui;
 
+import com.rce.common.structures.ContractEvolution;
 import com.rce.editor.Editor;
 import com.rce.editor.gui.utils.JGridBagPanel;
 import com.rce.common.io.ResultIO;
@@ -19,14 +20,16 @@ public class EditorFrame extends JFrame {
     public static IContract CONTRACT;
     public static IContract PRIOR_CONTRACT;
 
+    final ContractEvolution evolution;
     EndpointPanel endpointPanel;
     ResolutionPanel resolutionPanel;
 
-    public EditorFrame(IContract contract, IContract priorContract) {
+    public EditorFrame(IContract contract, IContract priorContract, ContractEvolution evolution) {
         super();
 
         CONTRACT = contract;
         PRIOR_CONTRACT = priorContract;
+        this.evolution = evolution;
 
         endpointPanel = getEndpointPanel(contract,priorContract);
         endpointPanel.next.addActionListener(e0 -> {
@@ -100,7 +103,7 @@ public class EditorFrame extends JFrame {
         return new EndpointPanel(
                 "Endpoints: " + Editor.BasePath + "new.yaml", ele0,
                 "Prior Endpoints: " + Editor.BasePath + "old.yaml", ele1,
-                ele2
-        );
+                ele2,
+                evolution);
     }
 }

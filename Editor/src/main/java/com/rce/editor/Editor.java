@@ -1,6 +1,7 @@
 package com.rce.editor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.rce.common.structures.ContractEvolution;
 import com.rce.editor.gui.EditorFrame;
 import com.rce.parser.OpenApiContract;
 import io.swagger.parser.OpenAPIParser;
@@ -25,7 +26,9 @@ public class Editor {
         OpenAPI oldV = new OpenAPIParser().readLocation(BasePath +"old.yml", null, parseOptions).getOpenAPI();
         OpenAPI newV = new OpenAPIParser().readLocation(BasePath + "new.yml", null, parseOptions).getOpenAPI();
 
-        new EditorFrame(new OpenApiContract(newV), new OpenApiContract(oldV));
+        ContractEvolution evolution = new ContractEvolution(oldV.getInfo().getTitle(), oldV.getInfo().getVersion(), newV.getInfo().getVersion());
+
+        new EditorFrame(new OpenApiContract(newV), new OpenApiContract(oldV), evolution);
     }
 
 }

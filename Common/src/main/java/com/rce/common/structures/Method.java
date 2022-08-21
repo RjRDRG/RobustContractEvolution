@@ -49,10 +49,10 @@ public class Method {
     }
 
     public Message getRequest() {
-        return messages.stream().filter(m->m.getType().equals("request")).findFirst().get();
+        return messages.stream().filter(m-> m.getType().equalsIgnoreCase("request")).findFirst().get();
     }
 
     public List<Message> getResponses() {
-        return messages.stream().filter(m->!m.getType().equals("request")).collect(Collectors.toList());
+        return messages.stream().filter(m->!m.getType().equalsIgnoreCase("request")).collect(Collectors.toList());
     }
 }

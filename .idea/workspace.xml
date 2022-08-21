@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/io/ResultIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/io/ResultIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Conversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/ContractEvolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Method.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Method.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Parameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/main/java/com/rce/common/structures/Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/Editor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/Editor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EditorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EditorFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EndpointPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/EndpointPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/ResolutionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/java/com/rce/editor/gui/ResolutionPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/main/resources/evolution.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Editor/src/test/java/EditorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Editor/src/test/java/EditorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/ProxyPyAdapterGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/ProxyPyAdapterGen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/SpringAdapterGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/SpringAdapterGen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/controllerTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/controllerTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/procedureTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/procedureTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/responseTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/responseTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Verifier/src/main/java/com/rce/verifier/Verifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/Verifier/src/main/java/com/rce/verifier/Verifier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -316,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660839647508</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="wip">
+      <created>1660938150795</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1660938150795</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
