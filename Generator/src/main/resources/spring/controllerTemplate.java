@@ -13,10 +13,16 @@ import static com.rce.adapter.Utils.forwardResponse;
 @RestController
 public class Controller {
 
+    private final String HOST;
+    private final int PORT;
+
     private final ObjectMapper mapper;
 
     public Controller() {
         mapper = new ObjectMapper();
+
+        HOST = System.getenv("TARGET_HOST");
+        PORT = Integer.parseInt(System.getenv("TARGET_PORT"));
     }
 
     #PROCEDURE#

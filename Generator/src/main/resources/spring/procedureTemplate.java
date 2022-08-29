@@ -33,7 +33,7 @@ public ResponseEntity<String> #PROCEDURE#(@PathVariable Map<String, String> _pat
         MediaType receiveType = MediaType.valueOf(#RECEIVE_TYPE#);
 
         ResponseEntity<String> responseEntity = forwardRequest(
-                scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
+            scheme, HOST, PORT, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
         );
 
         HttpStatus status = responseEntity.getStatusCode();

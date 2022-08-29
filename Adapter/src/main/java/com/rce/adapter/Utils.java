@@ -19,6 +19,7 @@ public class Utils {
     public static ResponseEntity<String> forwardRequest(
             String scheme,
             String host,
+            int port,
             HttpMethod method,
             String path,
             Map<String, String> pathParams,
@@ -38,6 +39,7 @@ public class Utils {
                 .newInstance()
                 .scheme(scheme)
                 .host(host)
+                .port(port)
                 .path(pathWithVariables);
 
         for (Map.Entry<String,String> entry : queryParams.entrySet()) {

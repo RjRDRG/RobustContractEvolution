@@ -13,10 +13,16 @@ import static com.rce.adapter.Utils.forwardResponse;
 @RestController
 public class Controller {
 
+    private final String HOST;
+    private final int PORT;
+
     private final ObjectMapper mapper;
 
     public Controller() {
         mapper = new ObjectMapper();
+
+        HOST = System.getenv("TARGET_HOST");
+        PORT = Integer.parseInt(System.getenv("TARGET_PORT"));
     }
 
     @RequestMapping(
@@ -31,8 +37,6 @@ public class Controller {
             JsonNode _body = mapper.readTree(_rawBody);
 
             String scheme = "http";
-
-            String host = "demo";
 
             HttpMethod method = HttpMethod.valueOf("GET");
 
@@ -54,7 +58,7 @@ public class Controller {
             MediaType receiveType = MediaType.valueOf("APPLICATION_JSON");
 
             ResponseEntity<String> responseEntity = forwardRequest(
-                    scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
+                    scheme, HOST, PORT, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
             );
 
             HttpStatus status = responseEntity.getStatusCode();
@@ -93,8 +97,6 @@ public class Controller {
 
             String scheme = "http";
 
-            String host = "demo";
-
             HttpMethod method = HttpMethod.valueOf("POST");
 
             String path = "/pets";
@@ -115,7 +117,7 @@ public class Controller {
             MediaType receiveType = MediaType.valueOf("APPLICATION_JSON");
 
             ResponseEntity<String> responseEntity = forwardRequest(
-                    scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
+                    scheme, HOST, PORT, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
             );
 
             HttpStatus status = responseEntity.getStatusCode();
@@ -154,8 +156,6 @@ public class Controller {
 
             String scheme = "http";
 
-            String host = "demo";
-
             HttpMethod method = HttpMethod.valueOf("DELETE");
 
             String path = "/pets/{id}";
@@ -176,7 +176,7 @@ public class Controller {
             MediaType receiveType = MediaType.valueOf("APPLICATION_JSON");
 
             ResponseEntity<String> responseEntity = forwardRequest(
-                    scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
+                    scheme, HOST, PORT, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
             );
 
             HttpStatus status = responseEntity.getStatusCode();
@@ -215,8 +215,6 @@ public class Controller {
 
             String scheme = "http";
 
-            String host = "demo";
-
             HttpMethod method = HttpMethod.valueOf("GET");
 
             String path = "/pets/{id}";
@@ -237,7 +235,7 @@ public class Controller {
             MediaType receiveType = MediaType.valueOf("APPLICATION_JSON");
 
             ResponseEntity<String> responseEntity = forwardRequest(
-                    scheme, host, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
+                    scheme, HOST, PORT, method, path, pathParams, queryParams, headerParams, body, sendType, receiveType
             );
 
             HttpStatus status = responseEntity.getStatusCode();
