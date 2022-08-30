@@ -4,48 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/java/com/rce/ReverseAdapterGen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/in/evolution.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/out/Old.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/controllerTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/procedureTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/responseTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c359ed4c-87c6-4765-99fc-b5de1fefebf8" name="Default Changelist" comment="refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Adapter/adapter.dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Adapter/src/main/java/com/rce/adapter/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/ProxyPyAdapterGen.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/java/com/rce/generator/SpringAdapterGen.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/evolution.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/evolution1.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxypy/evolution.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxypy/proxy.dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/proxypy/proxy_template.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/controllerTemplate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/evolution1.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/procedureTemplate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/main/resources/spring/responseTemplate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generator/src/test/java/com/rce/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/demo.dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/evolution.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/proxy.dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/DemoController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/BadRequestException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ExceptionAdvice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ForbiddenException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/NotImplementedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/rce/demo/exceptions/ServerErrorException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReverseGenerator/src/main/java/com/rce/ReverseAdapterGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/java/com/rce/ReverseAdapterGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/in/evolution.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/in/evolution.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/out/Old.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/controllerTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/controllerTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/procedureTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/ReverseGenerator/src/main/resources/templates/procedureTemplate.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +48,7 @@
   "keyToString": {
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/ReverseGenerator/src/main/resources",
+    "last_opened_file_path": "/home/rodrigo/IdeaProjects/RobustContractEvolution/ReverseGenerator",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -112,13 +77,27 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.AdapterApplication">
+  <component name="RunManager" selected="Application.com.rce.ReverseAdapterGen">
     <configuration name="AdapterApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.rce.adapter.AdapterApplication" />
       <module name="Adapter" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.rce.adapter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.rce.ReverseAdapterGen" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rce.ReverseAdapterGen" />
+      <module name="ReverseGenerator" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ReverseGenerator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rce.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -168,32 +147,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="demo: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="sourceFilePath" value="demo/docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.Editor" />
       <item itemvalue="Application.PrepareOpenApiContractTest" />
       <item itemvalue="Application.Verifier" />
+      <item itemvalue="Application.com.rce.ReverseAdapterGen" />
       <item itemvalue="Application.AdapterApplication" />
       <item itemvalue="Application.com.rce.generator.SpringAdapterGen" />
       <item itemvalue="Application.com.rce.generator.ProxyPyAdapterGen" />
-      <item itemvalue="Docker.demo: Compose Deployment" />
       <item itemvalue="JUnit.OpenApiContractTest" />
       <item itemvalue="JUnit.spring in Generator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.com.rce.ReverseAdapterGen" />
         <item itemvalue="Application.AdapterApplication" />
         <item itemvalue="Application.com.rce.generator.SpringAdapterGen" />
         <item itemvalue="JUnit.spring in Generator" />
         <item itemvalue="Application.com.rce.generator.ProxyPyAdapterGen" />
-        <item itemvalue="Docker.demo: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -381,7 +352,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661754117388</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="refactor">
+      <created>1661879857918</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1661879857918</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -399,6 +377,7 @@
     <MESSAGE value="s" />
     <MESSAGE value="demo rest server" />
     <MESSAGE value="wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip" />
+    <MESSAGE value="refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>
 </project>

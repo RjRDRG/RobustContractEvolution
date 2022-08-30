@@ -11,8 +11,6 @@ public ResponseEntity<String> #PROCEDURE#(@PathVariable Map<String, String> _pat
 
         String scheme = #SCHEME#;
 
-        String host = #HOST#;
-
         HttpMethod method = HttpMethod.valueOf(#METHOD#);
 
         String path = #PATH#;

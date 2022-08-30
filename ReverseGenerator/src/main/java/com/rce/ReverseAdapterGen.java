@@ -27,13 +27,13 @@ public class ReverseAdapterGen {
             PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH +  "templates/procedureTemplate.java"));
             RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH +   "templates/responseTemplate.java"));
 
-            Evolution = ResultIO.readFromYaml(BASE_PATH + "in/*");
+            Evolution = ResultIO.readFromYaml(BASE_PATH + "in/evolution.yml");
 
             String template = CONTROLLER_TEMPLATE;
 
             template = template.replace("#PROCEDURE#", buildProcedures());
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "out/Old.java"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "out/Controller.java"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {

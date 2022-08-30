@@ -1,4 +1,4 @@
-package com.rce.adapter;
+package com.rce.reverseadapter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.rce.adapter.Utils.forwardRequest;
-import static com.rce.adapter.Utils.forwardResponse;
+import static com.rce.reverseadapter.Utils.forwardRequest;
+import static com.rce.reverseadapter.Utils.forwardResponse;
 
 @RestController
 public class Controller {
