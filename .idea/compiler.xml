@@ -7,19 +7,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
-        <module name="Adapter" />
+        <module name="ReverseGenerator" />
         <module name="Verifier" />
         <module name="Editor" />
-        <module name="demo" />
         <module name="Parser" />
         <module name="Common" />
-        <module name="Generator" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Adapter" target="11" />
+      <module name="demo" target="11" />
+      <module name="Generator" target="11" />
+      <module name="ReverseAdapterGen" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Adapter" options="-parameters" />
+      <module name="ReverseAdapterGen" options="-parameters" />
       <module name="demo" options="-parameters" />
     </option>
   </component>

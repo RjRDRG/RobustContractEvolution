@@ -1,4 +1,4 @@
-package com.rce.generator;
+package com.rce;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -10,10 +10,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-public class SpringAdapterGen {
-    final static String BASE_PATH = "./src/main/resources/spring/";
+public class ReverseAdapterGen {
+    final static String BASE_PATH = "./src/main/resources/";
 
     static String CONTROLLER_TEMPLATE;
     static String PROCEDURE_TEMPLATE;
@@ -22,17 +23,17 @@ public class SpringAdapterGen {
 
     public static void main(String[] args) {
         try {
-            CONTROLLER_TEMPLATE = Files.readString(Path.of(BASE_PATH + "controllerTemplate.java"));
-            PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "procedureTemplate.java"));
-            RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH + "responseTemplate.java"));
+            CONTROLLER_TEMPLATE = Files.readString(Path.of(BASE_PATH + "templates/controllerTemplate.java"));
+            PROCEDURE_TEMPLATE = Files.readString(Path.of(BASE_PATH +  "templates/procedureTemplate.java"));
+            RESPONSE_TEMPLATE = Files.readString(Path.of(BASE_PATH +   "templates/responseTemplate.java"));
 
-            Evolution = ResultIO.readFromYaml(BASE_PATH + "evolution1.yml");
+            Evolution = ResultIO.readFromYaml(BASE_PATH + "in/*");
 
             String template = CONTROLLER_TEMPLATE;
 
             template = template.replace("#PROCEDURE#", buildProcedures());
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "/Controller.java"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(BASE_PATH + "out/Old.java"));
             writer.write(template);
             writer.close();
         } catch (IOException e) {
